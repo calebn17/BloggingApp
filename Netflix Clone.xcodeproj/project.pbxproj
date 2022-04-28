@@ -74,7 +74,6 @@
 				AF07D2922819B17700256E14 /* Controllers */,
 				AF07D27E2819AFDA00256E14 /* AppDelegate.swift */,
 				AF07D2802819AFDA00256E14 /* SceneDelegate.swift */,
-				AF07D2822819AFDA00256E14 /* MainTabBarViewController.swift */,
 				AF07D2872819AFDD00256E14 /* Assets.xcassets */,
 				AF07D2892819AFDD00256E14 /* LaunchScreen.storyboard */,
 				AF07D28C2819AFDD00256E14 /* Info.plist */,
@@ -85,6 +84,7 @@
 		AF07D2922819B17700256E14 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				AF07D2822819AFDA00256E14 /* MainTabBarViewController.swift */,
 				AF07D2932819B1AB00256E14 /* HomeViewController.swift */,
 				AF07D2952819B1D200256E14 /* UpcomingViewController.swift */,
 				AF07D2972819B1EC00256E14 /* SearchViewController.swift */,

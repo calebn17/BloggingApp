@@ -25,8 +25,8 @@ class MainTabBarViewController: UITabBarController {
         
         vc1.title = "Home"
         vc2.title = "Coming Soon"
-        vc1.title = "Top Searches"
-        vc1.title = "Downloads"
+        vc3.title = "Top Searches"
+        vc4.title = "Downloads"
         
         tabBar.tintColor = .label
         
