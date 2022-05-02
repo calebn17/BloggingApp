@@ -18,6 +18,10 @@
 		AF07D29A2819B20A00256E14 /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2992819B20A00256E14 /* DownloadsViewController.swift */; };
 		AF07D2A12819DFCE00256E14 /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2A02819DFCD00256E14 /* CollectionViewTableViewCell.swift */; };
 		AF07D2A32819E6E600256E14 /* HeroHeaderUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2A22819E6E600256E14 /* HeroHeaderUIView.swift */; };
+		AFC04EA3282014C80036469A /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA2282014C80036469A /* APICaller.swift */; };
+		AFC04EA52820187B0036469A /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA42820187B0036469A /* Movie.swift */; };
+		AFC04EA7282025570036469A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA6282025570036469A /* Extensions.swift */; };
+		AFC04EA9282026C90036469A /* TV.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA8282026C90036469A /* TV.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +38,10 @@
 		AF07D2992819B20A00256E14 /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 		AF07D2A02819DFCD00256E14 /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
 		AF07D2A22819E6E600256E14 /* HeroHeaderUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroHeaderUIView.swift; sourceTree = "<group>"; };
+		AFC04EA2282014C80036469A /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
+		AFC04EA42820187B0036469A /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		AFC04EA6282025570036469A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		AFC04EA8282026C90036469A /* TV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TV.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +120,8 @@
 		AF07D29D2819DF7000256E14 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AFC04EA42820187B0036469A /* Movie.swift */,
+				AFC04EA8282026C90036469A /* TV.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -119,6 +129,7 @@
 		AF07D29E2819DF8E00256E14 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AFC04EA6282025570036469A /* Extensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -126,6 +137,7 @@
 		AF07D29F2819DF9600256E14 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				AFC04EA2282014C80036469A /* APICaller.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -201,13 +213,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF07D2982819B1EC00256E14 /* SearchViewController.swift in Sources */,
+				AFC04EA9282026C90036469A /* TV.swift in Sources */,
 				AF07D2832819AFDA00256E14 /* MainTabBarViewController.swift in Sources */,
 				AF07D2A12819DFCE00256E14 /* CollectionViewTableViewCell.swift in Sources */,
+				AFC04EA3282014C80036469A /* APICaller.swift in Sources */,
 				AF07D2A32819E6E600256E14 /* HeroHeaderUIView.swift in Sources */,
 				AF07D29A2819B20A00256E14 /* DownloadsViewController.swift in Sources */,
 				AF07D27F2819AFDA00256E14 /* AppDelegate.swift in Sources */,
+				AFC04EA7282025570036469A /* Extensions.swift in Sources */,
 				AF07D2812819AFDA00256E14 /* SceneDelegate.swift in Sources */,
 				AF07D2962819B1D200256E14 /* UpcomingViewController.swift in Sources */,
+				AFC04EA52820187B0036469A /* Movie.swift in Sources */,
 				AF07D2942819B1AB00256E14 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
