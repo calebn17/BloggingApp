@@ -22,6 +22,8 @@ class HomeViewController: UIViewController {
     
     private var randomTrendingMovie: Title?
     
+    private var headerView: HeroHeaderUIView?
+    
     let sectionTitles: [String] = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top Rated"]
     
 //    private var trendingMovies: [Title] = []
@@ -49,8 +51,9 @@ class HomeViewController: UIViewController {
         
         configureNavbar()
         
-        let headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
+        headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTableView.tableHeaderView = headerView
+        //configureHeroHeaderView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -75,6 +78,21 @@ class HomeViewController: UIViewController {
             UIBarButtonItem(image: UIImage(systemName: "play.rectangle"), style: .done, target: self, action: nil)
         ]
         navigationController?.navigationBar.tintColor = .white
+    }
+    
+    private func configureHeroHeaderView() {
+        
+        APICaller.shared.getTrendingMovies { [weak self] results in
+            switch results {
+            case .success(let titles):
+                self?.randomTrendingMovie = titles.randomElement()
+                let title = self?.randomTrendingMovie?.original_title ?? self?.randomTrendingMovie?.original_name ?? ""
+                let poster = self?.randomTrendingMovie?.poster_path ?? ""
+                self?.headerView?.configure(with: TitleViewModel(titleName: title, posterURL: poster))
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
    
 }
