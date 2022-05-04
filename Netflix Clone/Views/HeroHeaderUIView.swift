@@ -7,6 +7,7 @@
 
 import UIKit
 
+//Hero Section in the Home Tab
 class HeroHeaderUIView: UIView {
     
     private let heroImageView: UIImageView = {

@@ -20,6 +20,8 @@ class HomeViewController: UIViewController {
 
 //MARK: - Setup
     
+    private var randomTrendingMovie: Title?
+    
     let sectionTitles: [String] = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top Rated"]
     
 //    private var trendingMovies: [Title] = []
@@ -49,8 +51,6 @@ class HomeViewController: UIViewController {
         
         let headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTableView.tableHeaderView = headerView
-        
-        //fetchData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -59,57 +59,7 @@ class HomeViewController: UIViewController {
         homeFeedTableView.frame = view.bounds
     }
     
-//MARK: - API Calls
-    
-//    private func fetchData() {
-//        APICaller.shared.getTrendingMovies {[weak self] result in
-//            switch result {
-//            case .success(let movies):
-//                self?.trendingMovies = movies
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
-//
-//        APICaller.shared.getTrendingTV {[weak self] result in
-//            switch result {
-//            case .success(let tvs):
-//                self?.tvs = tvs
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
-//
-//        APICaller.shared.getUpcomingMovies {[weak self] result in
-//            switch result {
-//            case .success(let movies):
-//                self?.upcomingMovies = movies
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
-//
-//        APICaller.shared.getPopular {[weak self] result in
-//            switch result {
-//            case .success(let popular):
-//                self?.popular = popular
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
-//
-//        APICaller.shared.getTopRated {[weak self] result in
-//            switch result {
-//            case .success(let topRated):
-//                self?.topRated = topRated
-//            case .failure(let error):
-//                print(error.localizedDescription)
-//            }
-//        }
-//
-//
-//    }
-//
+
 //MARK: - Actions
     
     private func configureNavbar() {
@@ -144,6 +94,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionViewTableViewCell.identifier, for: indexPath) as? CollectionViewTableViewCell else {return UITableViewCell()}
         
+        //need to set the delegate here because the cell is defined here in the Home VC. Home VC is the delegate for the cell (a CollectionViewTableViewCell)
+        cell.delegate = self
+        
         switch indexPath.section {
         case Sections.TrendingMovies.rawValue:
             APICaller.shared.getTrendingMovies { result in
@@ -154,7 +107,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                             print(error.localizedDescription)
                         }
                     }
-        case Sections.TrendingMovies.rawValue:
+        case Sections.TrendingTV.rawValue:
             APICaller.shared.getTrendingTV { result in
                         switch result {
                         case .success(let tv):
@@ -211,7 +164,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
         header.textLabel?.textColor = .white
-        header.textLabel?.text = header.textLabel?.text?.capitalizeFirstLetter()
+        //header.textLabel?.text = header.textLabel?.text?.capitalizeFirstLetter()
         
     }
     
@@ -219,12 +172,25 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         return sectionTitles[section]
     }
     
-    //Hides the navBar as the user scrolls down (navigates down the page)
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let defaultOffset = view.safeAreaInsets.top
-        let offset = scrollView.contentOffset.y + defaultOffset
-        
-        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
-    }
-   
+//    //Hides the navBar as the user scrolls down (navigates down the page)
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        let defaultOffset = view.safeAreaInsets.top
+//        let offset = scrollView.contentOffset.y + defaultOffset
+//
+//        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
+//    }
+//
 }
+
+extension HomeViewController: CollectionViewTableViewCellDelegate {
+    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewModel: TitlePreviewViewModel) {
+        
+        DispatchQueue.main.async { [weak self] in
+            let vc = TitlePreviewViewController()
+            vc.configure(with: viewModel)
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
+}
+
