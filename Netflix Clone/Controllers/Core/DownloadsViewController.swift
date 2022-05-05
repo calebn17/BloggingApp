@@ -28,6 +28,12 @@ class DownloadsViewController: UIViewController {
         downloadedTable.dataSource = self
         view.addSubview(downloadedTable)
         
+        navigationController?.navigationBar.tintColor = .white
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("downloaded"), object: nil, queue: nil) { [weak self] _ in
+            self?.fetchLocalStorageForDownload()
+        }
+        
         fetchLocalStorageForDownload()
     }
     
