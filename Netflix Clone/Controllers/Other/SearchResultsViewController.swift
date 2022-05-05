@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol SearchResultsViewControllerDelegate: AnyObject {
+    func SearchResultsViewControllerDidTapItem(_ viewModel:TitlePreviewViewModel)
+}
+
 class SearchResultsViewController: UIViewController {
+    
+    weak var delegate: SearchResultsViewControllerDelegate?
     
     public var titles: [Title] = []
     
@@ -51,5 +57,21 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
         let poster = titles[indexPath.row].poster_path ?? ""
         cell.configure(with: poster)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let titleName = titles[indexPath.row].original_title ?? titles[indexPath.row].original_title ?? ""
+        let titleOverview = titles[indexPath.row].overview ?? ""
+        
+        APICaller.shared.getMovie(with: titleName) { [weak self] result in
+            switch result {
+            case .success(let videoElement):
+                self?.delegate?.SearchResultsViewControllerDidTapItem(TitlePreviewViewModel(title: titleName, youtubeVideo: videoElement, titleOverview: titleOverview))
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }

@@ -53,7 +53,7 @@ class HomeViewController: UIViewController {
         
         headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTableView.tableHeaderView = headerView
-        //configureHeroHeaderView()
+        configureHeroHeaderView()
     }
     
     override func viewDidLayoutSubviews() {

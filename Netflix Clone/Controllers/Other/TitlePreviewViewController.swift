@@ -8,6 +8,7 @@
 import UIKit
 import WebKit
 
+//The VC that contains the youtube preview trailer
 class TitlePreviewViewController: UIViewController {
     
     private let titleLabel: UILabel = {
