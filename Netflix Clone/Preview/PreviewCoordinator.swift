@@ -25,7 +25,6 @@ final class PreviewCoordinator: Coordinator {
         vc.coordinator = self
         vc.configure(with: viewModel)
         let navVC = UINavigationController(rootViewController: vc)
-        navVC.modalPresentationStyle = .fullScreen
         sender.present(navVC, animated: true)
     }
     

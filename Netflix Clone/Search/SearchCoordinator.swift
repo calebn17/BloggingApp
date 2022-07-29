@@ -18,10 +18,16 @@ final class SearchCoordinator: Coordinator {
     
     func start() {
         let vc = SearchViewController()
+        vc.coordinator = self
         vc.title = "Search"
         vc.navigationItem.backButtonDisplayMode = .minimal
         navigationController.pushViewController(vc, animated: false)
     }
     
-    
+    func tappedOnSearchCell(sender: SearchViewController, model: TitlePreviewModel) {
+        let vc = TitlePreviewViewController()
+        vc.configure(with: model)
+        let navVC = UINavigationController(rootViewController: vc)
+        sender.present(navVC, animated: true)
+    }
 }

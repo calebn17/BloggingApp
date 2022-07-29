@@ -10,6 +10,8 @@ import UIKit
 //Shows the top results after user clicks on the Search tab
 class SearchViewController: UIViewController {
     
+    weak var coordinator: SearchCoordinator?
+    
     private var titles: [Title] = []
 
     private let discoverTable: UITableView = {
@@ -35,7 +37,7 @@ class SearchViewController: UIViewController {
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         
         navigationItem.searchController = searchController
-        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.tintColor = .label
         
         view.addSubview(discoverTable)
         discoverTable.delegate = self
@@ -84,19 +86,9 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let title = titles[indexPath.row]
-        guard let titleName = title.original_name ?? title.original_title else {return}
-        
-        APICaller.shared.getMovie(with: titleName) { [weak self] result in
-            switch result {
-            case .success(let videoElement):
-                DispatchQueue.main.async {
-                    let vc = TitlePreviewViewController()
-                    vc.configure(with: TitlePreviewModel(title: titleName, youtubeVideo: videoElement, titleOverview: title.overview ?? ""))
-                    self?.navigationController?.pushViewController(vc, animated: true)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+        Task {
+            guard let model = try await SearchViewModel.fetchMovie(title: title) else {return}
+            coordinator?.tappedOnSearchCell(sender: self, model: model)
         }
     }
 }
@@ -113,26 +105,17 @@ extension SearchViewController: UISearchResultsUpdating, SearchResultsViewContro
         else {return}
         
         resultsController.delegate = self
-        
-        APICaller.shared.search(with: query) { result in
-            switch result {
-            case .success(let titles):
-                resultsController.titles = titles
-                DispatchQueue.main.async {
-                    resultsController.searchResultsCollectionView.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+        Task {
+            let titles = try await SearchViewModel.search(with: query)
+            resultsController.titles = titles
+            resultsController.searchResultsCollectionView.reloadData()
         }
     }
     
     func SearchResultsViewControllerDidTapItem(_ viewModel: TitlePreviewModel) {
-        
         DispatchQueue.main.async {[weak self] in
-            let vc = TitlePreviewViewController()
-            vc.configure(with: viewModel)
-            self?.navigationController?.pushViewController(vc, animated: true)
+            guard let strongSelf = self else {return}
+            self?.coordinator?.tappedOnSearchCell(sender: strongSelf, model: viewModel)
         }
     }
 }

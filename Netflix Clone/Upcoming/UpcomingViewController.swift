@@ -10,6 +10,8 @@ import UIKit
 //Coming Soon tab
 class UpcomingViewController: UIViewController {
     
+    weak var coordinator: UpcomingCoordinator?
+    
     private var titles: [Title] = []
     
     private let upcomingTable: UITableView = {
@@ -47,10 +49,6 @@ class UpcomingViewController: UIViewController {
             upcomingTable.reloadData()
         }
     }
-    
-
-   
-
 }
 
 extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
@@ -78,19 +76,9 @@ extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let title = titles[indexPath.row]
-        guard let titleName = title.original_name ?? title.original_title else {return}
-        
-        APICaller.shared.getMovie(with: titleName) { [weak self] result in
-            switch result {
-            case .success(let videoElement):
-                DispatchQueue.main.async {
-                    let vc = TitlePreviewViewController()
-                    vc.configure(with: TitlePreviewModel(title: titleName, youtubeVideo: videoElement, titleOverview: title.overview ?? ""))
-                    self?.navigationController?.pushViewController(vc, animated: true)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+        Task {
+            guard let model = try await UpcomingViewModel.fetchMovie(title: title) else {return}
+            coordinator?.tappedCell(sender: self, model: model)
         }
     }
 }

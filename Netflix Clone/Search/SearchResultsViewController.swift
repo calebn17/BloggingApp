@@ -40,7 +40,6 @@ class SearchResultsViewController: UIViewController {
         super.viewDidLayoutSubviews()
         searchResultsCollectionView.frame = view.bounds
     }
-    
 }
 
 
@@ -61,17 +60,10 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        
-        let titleName = titles[indexPath.row].original_title ?? titles[indexPath.row].original_title ?? ""
-        let titleOverview = titles[indexPath.row].overview ?? ""
-        
-        APICaller.shared.getMovie(with: titleName) { [weak self] result in
-            switch result {
-            case .success(let videoElement):
-                self?.delegate?.SearchResultsViewControllerDidTapItem(TitlePreviewModel(title: titleName, youtubeVideo: videoElement, titleOverview: titleOverview))
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+        let title = titles[indexPath.row]
+        Task {
+            guard let model = try await SearchViewModel.fetchMovie(title: title) else {return}
+            self.delegate?.SearchResultsViewControllerDidTapItem(model)
         }
     }
 }

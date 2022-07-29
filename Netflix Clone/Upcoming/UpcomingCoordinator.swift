@@ -20,7 +20,15 @@ final class UpcomingCoordinator: Coordinator {
     func start() {
         let vc = UpcomingViewController()
         vc.title = "Upcoming"
+        vc.coordinator = self
         vc.navigationItem.backButtonDisplayMode = .minimal
         navigationController.pushViewController(vc, animated: false)
+    }
+    
+    func tappedCell(sender: UpcomingViewController, model: TitlePreviewModel) {
+        let vc = TitlePreviewViewController()
+        vc.configure(with: model)
+        let navVC = UINavigationController(rootViewController: vc)
+        sender.present(navVC, animated: true)
     }
 }

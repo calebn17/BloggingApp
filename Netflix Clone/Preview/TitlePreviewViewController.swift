@@ -59,6 +59,7 @@ class TitlePreviewViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: nil)
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
+        navigationItem.rightBarButtonItem?.tintColor = .label
         configureConstraints()
     }
     
