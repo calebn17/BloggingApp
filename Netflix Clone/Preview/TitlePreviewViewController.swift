@@ -11,6 +11,8 @@ import WebKit
 //The VC that contains the youtube preview trailer
 class TitlePreviewViewController: UIViewController {
     
+    weak var coordinator: PreviewCoordinator?
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +48,7 @@ class TitlePreviewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Preview"
         
         view.backgroundColor = .systemBackground
         
@@ -54,9 +57,14 @@ class TitlePreviewViewController: UIViewController {
         view.addSubview(overviewLabel)
         view.addSubview(downloadButton)
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
         configureConstraints()
-
-        
+    }
+    
+//MARK: - Actions
+    @objc private func didTapClose() {
+        dismiss(animated: true, completion: nil)
     }
     
     private func configureConstraints(){
@@ -89,7 +97,7 @@ class TitlePreviewViewController: UIViewController {
         NSLayoutConstraint.activate(downloadButtonConstraints)
     }
     
-    func configure(with model: TitlePreviewViewModel) {
+    func configure(with model: TitlePreviewModel) {
         titleLabel.text = model.title
         overviewLabel.text = model.titleOverview
         

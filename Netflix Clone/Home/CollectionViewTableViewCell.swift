@@ -7,16 +7,16 @@
 
 import UIKit
 
-protocol CollectionViewTableViewCellDelegate: AnyObject {
-    func collectionViewTableViewCellDidTapCell(_ cell: CollectionViewTableViewCell, viewModel: TitlePreviewViewModel)
+protocol HomeCollectionViewTableViewCellDelegate: AnyObject {
+    func collectionViewTableViewCellDidTapCell(_ cell: HomeCollectionViewTableViewCell, viewModel: TitlePreviewModel)
 }
 
 //The Rowlist for each section in the Home Tab
-class CollectionViewTableViewCell: UITableViewCell {
+class HomeCollectionViewTableViewCell: UITableViewCell {
 
-    static let identifier = "CollectionViewTableViewCell"
+    static let identifier = "HomeCollectionViewTableViewCell"
     
-    weak var delegate: CollectionViewTableViewCellDelegate?
+    weak var delegate: HomeCollectionViewTableViewCellDelegate?
     
     private var titles: [Title] = []
     
@@ -72,7 +72,7 @@ class CollectionViewTableViewCell: UITableViewCell {
 
 }
 
-extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension HomeCollectionViewTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return titles.count
@@ -103,7 +103,7 @@ extension CollectionViewTableViewCell: UICollectionViewDelegate, UICollectionVie
             switch results {
             case .success(let videoElement):
                 guard let strongSelf = self else {return}
-                let viewModel = TitlePreviewViewModel(title: titleName, youtubeVideo: videoElement, titleOverview: title.overview ?? "")
+                let viewModel = TitlePreviewModel(title: titleName, youtubeVideo: videoElement, titleOverview: title.overview ?? "")
                 self?.delegate?.collectionViewTableViewCellDidTapCell(strongSelf, viewModel: viewModel)
             case .failure(let error):
                 print(error.localizedDescription)

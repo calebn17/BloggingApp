@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SearchResultsViewControllerDelegate: AnyObject {
-    func SearchResultsViewControllerDidTapItem(_ viewModel:TitlePreviewViewModel)
+    func SearchResultsViewControllerDidTapItem(_ viewModel:TitlePreviewModel)
 }
 
 class SearchResultsViewController: UIViewController {
@@ -68,7 +68,7 @@ extension SearchResultsViewController: UICollectionViewDelegate, UICollectionVie
         APICaller.shared.getMovie(with: titleName) { [weak self] result in
             switch result {
             case .success(let videoElement):
-                self?.delegate?.SearchResultsViewControllerDidTapItem(TitlePreviewViewModel(title: titleName, youtubeVideo: videoElement, titleOverview: titleOverview))
+                self?.delegate?.SearchResultsViewControllerDidTapItem(TitlePreviewModel(title: titleName, youtubeVideo: videoElement, titleOverview: titleOverview))
             case .failure(let error):
                 print(error.localizedDescription)
             }

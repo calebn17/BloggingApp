@@ -30,7 +30,7 @@ class UpcomingViewController: UIViewController {
         upcomingTable.delegate = self
         upcomingTable.dataSource = self
         
-        fetchUpcoming()
+        updateUpcomingUI()
         
         navigationController?.navigationBar.tintColor = .white
     }
@@ -40,19 +40,11 @@ class UpcomingViewController: UIViewController {
         upcomingTable.frame = view.bounds
     }
     
-    private func fetchUpcoming() {
-        APICaller.shared.getUpcomingMovies {[weak self] result in
-            switch result {
-            case .success(let titles):
-                self?.titles = titles
-                DispatchQueue.main.async {
-                    self?.upcomingTable.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-                
-            }
-            
+    private func updateUpcomingUI() {
+        Task {
+            let titles = try await UpcomingViewModel.fetchUpcomingMovies()
+            self.titles = titles
+            upcomingTable.reloadData()
         }
     }
     
@@ -73,7 +65,7 @@ extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
         
         let title = titles[indexPath.row].original_title ?? titles[indexPath.row].original_name ?? "Unknown"
         let poster = titles[indexPath.row].poster_path ?? ""
-        cell.configure(with: TitleViewModel(titleName: title , posterURL: poster))
+        cell.configure(with: TitleModel(titleName: title , posterURL: poster))
         
         return cell
     }
@@ -93,7 +85,7 @@ extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
             case .success(let videoElement):
                 DispatchQueue.main.async {
                     let vc = TitlePreviewViewController()
-                    vc.configure(with: TitlePreviewViewModel(title: titleName, youtubeVideo: videoElement, titleOverview: title.overview ?? ""))
+                    vc.configure(with: TitlePreviewModel(title: titleName, youtubeVideo: videoElement, titleOverview: title.overview ?? ""))
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
             case .failure(let error):

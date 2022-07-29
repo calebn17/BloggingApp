@@ -68,7 +68,7 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
         
         let title = titles[indexPath.row].original_title ?? titles[indexPath.row].original_name ?? "Unknown"
         let poster = titles[indexPath.row].poster_path ?? ""
-        cell.configure(with: TitleViewModel(titleName: title , posterURL: poster))
+        cell.configure(with: TitleModel(titleName: title , posterURL: poster))
         
         return cell
     }
@@ -88,7 +88,7 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
             case .success(let videoElement):
                 DispatchQueue.main.async {
                     let vc = TitlePreviewViewController()
-                    vc.configure(with: TitlePreviewViewModel(title: titleName, youtubeVideo: videoElement, titleOverview: title.overview ?? ""))
+                    vc.configure(with: TitlePreviewModel(title: titleName, youtubeVideo: videoElement, titleOverview: title.overview ?? ""))
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
             case .failure(let error):

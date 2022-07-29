@@ -41,7 +41,7 @@ class SearchViewController: UIViewController {
         discoverTable.delegate = self
         discoverTable.dataSource = self
         
-        fetchDiscoverMovies()
+        updateDiscoverMoviesUI()
         
         searchController.searchResultsUpdater = self
     }
@@ -51,21 +51,13 @@ class SearchViewController: UIViewController {
         discoverTable.frame = view.bounds
     }
     
-    private func fetchDiscoverMovies() {
-        APICaller.shared.getDiscoverMovies {[weak self] result in
-            switch result {
-            case .success(let titles):
-                self?.titles = titles
-                DispatchQueue.main.async {
-                    self?.discoverTable.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+    private func updateDiscoverMoviesUI() {
+        Task {
+            let titles = try await SearchViewModel.fetchDiscoverMovies()
+            self.titles = titles
+            discoverTable.reloadData()
         }
     }
-
-    
 }
 
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
@@ -79,7 +71,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         
         let title = titles[indexPath.row].original_title ?? titles[indexPath.row].original_name ?? "Unknown"
         let poster = titles[indexPath.row].poster_path ?? ""
-        cell.configure(with: TitleViewModel(titleName: title, posterURL: poster))
+        cell.configure(with: TitleModel(titleName: title, posterURL: poster))
         
         return cell
     }
@@ -99,7 +91,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             case .success(let videoElement):
                 DispatchQueue.main.async {
                     let vc = TitlePreviewViewController()
-                    vc.configure(with: TitlePreviewViewModel(title: titleName, youtubeVideo: videoElement, titleOverview: title.overview ?? ""))
+                    vc.configure(with: TitlePreviewModel(title: titleName, youtubeVideo: videoElement, titleOverview: title.overview ?? ""))
                     self?.navigationController?.pushViewController(vc, animated: true)
                 }
             case .failure(let error):
@@ -135,7 +127,7 @@ extension SearchViewController: UISearchResultsUpdating, SearchResultsViewContro
         }
     }
     
-    func SearchResultsViewControllerDidTapItem(_ viewModel: TitlePreviewViewModel) {
+    func SearchResultsViewControllerDidTapItem(_ viewModel: TitlePreviewModel) {
         
         DispatchQueue.main.async {[weak self] in
             let vc = TitlePreviewViewController()

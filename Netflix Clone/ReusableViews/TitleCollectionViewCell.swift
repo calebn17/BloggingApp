@@ -11,7 +11,6 @@ import SDWebImage
 //The individual cards for each section in the Home Tab
 class TitleCollectionViewCell: UICollectionViewCell {
     
-    
     static let identifier = "TitleCollectionViewCell"
     
     private let posterImageView: UIImageView = {
@@ -41,6 +40,6 @@ class TitleCollectionViewCell: UICollectionViewCell {
     public func configure(with model: String) {
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model)") else {return}
         posterImageView.sd_setImage(with: url, completed: nil)
-       
+        
     }
 }

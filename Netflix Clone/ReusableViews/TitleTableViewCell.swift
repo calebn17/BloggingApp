@@ -75,9 +75,7 @@ class TitleTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(playTitleButtonConstraints)
     }
     
-    
-    
-    public func configure(with model: TitleViewModel) {
+    public func configure(with model: TitleModel) {
         guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model.posterURL)") else { return }
         titlePosterUIImageView.sd_setImage(with: url, completed: nil)
         titleLabel.text = model.titleName
