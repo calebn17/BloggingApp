@@ -42,6 +42,7 @@
 		AFC04EAE282040D20036469A /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = AFC04EAD282040D20036469A /* SDWebImage */; };
 		AFC04EB0282040D20036469A /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = AFC04EAF282040D20036469A /* SDWebImageMapKit */; };
 		AFCE1ABA2824104E000BB31B /* NetflixCloneModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AFCE1AB82824104E000BB31B /* NetflixCloneModel.xcdatamodeld */; };
+		AFCED40E289471EA0083C1D5 /* DownloadsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCED40D289471EA0083C1D5 /* DownloadsViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +81,7 @@
 		AFC04EA6282025570036469A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AFC04EAA28203F670036469A /* TitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCollectionViewCell.swift; sourceTree = "<group>"; };
 		AFCE1AB92824104E000BB31B /* NetflixCloneModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NetflixCloneModel.xcdatamodel; sourceTree = "<group>"; };
+		AFCED40D289471EA0083C1D5 /* DownloadsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +218,7 @@
 			children = (
 				AF9C72A4289420C3003B6CF7 /* DownloadsCoordinator.swift */,
 				AF07D2992819B20A00256E14 /* DownloadsViewController.swift */,
+				AFCED40D289471EA0083C1D5 /* DownloadsViewModel.swift */,
 			);
 			path = Downloads;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				AFC04EA3282014C80036469A /* APICaller.swift in Sources */,
 				AF9C72AD28943522003B6CF7 /* UpcomingViewModel.swift in Sources */,
 				AF9C72A12894209D003B6CF7 /* PreviewCoordinator.swift in Sources */,
+				AFCED40E289471EA0083C1D5 /* DownloadsViewModel.swift in Sources */,
 				AF9C72A3289420B1003B6CF7 /* ProfileCoordinator.swift in Sources */,
 				AF9C729B28941FA5003B6CF7 /* CoordinatorProtocol.swift in Sources */,
 				AF07D2A32819E6E600256E14 /* HeroHeaderUIView.swift in Sources */,

@@ -47,39 +47,31 @@ class DataPersistenceManager {
         }
     }
     
-    func fetchingTitlesFromDataBase(completion: @escaping (Result<[TitleItem], Error>) -> Void) {
+    func fetchingTitlesFromDataBase() async throws -> [TitleItem] {
+        guard let appDelegate = await UIApplication.shared.delegate as? AppDelegate else {return []}
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        
-        let context = appDelegate.persistentContainer.viewContext
-        
+        let context = await appDelegate.persistentContainer.viewContext
         let request: NSFetchRequest<TitleItem>
-        
         request = TitleItem.fetchRequest()
-        
         do {
             let titles = try context.fetch(request)
-            completion(.success(titles))
+            return titles
         }
         catch {
-            completion(.failure(DatabaseError.failedToFetchData))
+            print("Error when fetching data from local DB")
+            return []
         }
     }
     
-    func deleteTitleWith(model: TitleItem, completion: @escaping (Result<Void, Error>) -> Void) {
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        
-        let context = appDelegate.persistentContainer.viewContext
-        
+    func deleteTitleWith(model: TitleItem) async throws {
+        guard let appDelegate = await UIApplication.shared.delegate as? AppDelegate else {return}
+        let context = await appDelegate.persistentContainer.viewContext
         context.delete(model)
-        
         do{
             try context.save()
-            completion(.success(()))
         }
         catch {
-            completion(.failure(DatabaseError.failedToDeleteData))
+            print("Error when deleting downloaded content")
             }
     }
 }

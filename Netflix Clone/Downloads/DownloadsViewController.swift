@@ -8,7 +8,7 @@
 import UIKit
 
 class DownloadsViewController: UIViewController {
-    
+    weak var coordinator: DownloadsCoordinator?
     private var titles: [TitleItem] = []
 
     private let downloadedTable: UITableView = {
@@ -42,16 +42,9 @@ class DownloadsViewController: UIViewController {
     }
     
     private func fetchLocalStorageForDownload() {
-        DataPersistenceManager.shared.fetchingTitlesFromDataBase { [weak self] result in
-            switch result {
-            case .success(let titles):
-                self?.titles = titles
-                DispatchQueue.main.async {
-                    self?.downloadedTable.reloadData()
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+        Task {
+            self.titles = try await DownloadsViewModel.fetchDownloadedTitles()
+            downloadedTable.reloadData()
         }
     }
 }
@@ -79,39 +72,25 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let title = titles[indexPath.row]
-        guard let titleName = title.original_name ?? title.original_title else {return}
-        
-        APICaller.shared.getMovie(with: titleName) { [weak self] result in
-            switch result {
-            case .success(let videoElement):
-                DispatchQueue.main.async {
-                    let vc = TitlePreviewViewController()
-                    vc.configure(with: TitlePreviewModel(title: titleName, youtubeVideo: videoElement, titleOverview: title.overview ?? ""))
-                    self?.navigationController?.pushViewController(vc, animated: true)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
+        Task {
+            let title = titles[indexPath.row]
+            guard let model = try await DownloadsViewModel.fetchMovie(title: title) else {return}
+            coordinator?.tappedOnCell(sender: self, model: model)
         }
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            
-            DataPersistenceManager.shared.deleteTitleWith(model: titles[indexPath.row]) {[weak self] result in
-                switch result {
-                case .success():
-                    print("Deleted from the database")
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
+            Task {
+                let title = titles[indexPath.row]
+                await DownloadsViewModel.deleteTitle(with: title)
+                
                 //remove particular title from titles array FIRST and then delete the tableView row or we will get an error
-                self?.titles.remove(at: indexPath.row)
+                self.titles.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
+            
         default: break
         }
     }
