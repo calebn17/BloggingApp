@@ -71,6 +71,10 @@ final class HomeViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+
+    private func handleIfAuthenticated() {
+        
+    }
 }
 
 //MARK: - TableView Methods

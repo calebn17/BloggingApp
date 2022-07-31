@@ -19,6 +19,10 @@ struct HomeViewModel {
     
     static let sectionTitles = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top Rated"]
     
+    static func isNotAuthenticated() -> Bool {
+        return AuthManager.shared.isNotAuthenticated()
+    }
+    
     static func fetchTrendingMovies() async throws -> [Title] {
         let result = try await APICaller.shared.getTrendingMovies()
         return result
