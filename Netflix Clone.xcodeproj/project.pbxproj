@@ -13,6 +13,8 @@
 		70E64F642896FD0900C86C27 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E64F632896FD0900C86C27 /* LoginViewController.swift */; };
 		70E64F662896FD5A00C86C27 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E64F652896FD5A00C86C27 /* CustomTextField.swift */; };
 		70E64F682896FFFD00C86C27 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E64F672896FFFD00C86C27 /* CustomButton.swift */; };
+		70FF9ED7289769130021F4A2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 70FF9ED6289769130021F4A2 /* GoogleService-Info.plist */; };
+		70FF9ED9289770DC0021F4A2 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70FF9ED8289770DC0021F4A2 /* RegisterViewController.swift */; };
 		AF07D27F2819AFDA00256E14 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D27E2819AFDA00256E14 /* AppDelegate.swift */; };
 		AF07D2812819AFDA00256E14 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2802819AFDA00256E14 /* SceneDelegate.swift */; };
 		AF07D2832819AFDA00256E14 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2822819AFDA00256E14 /* MainTabBarController.swift */; };
@@ -59,6 +61,8 @@
 		70E64F632896FD0900C86C27 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		70E64F652896FD5A00C86C27 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		70E64F672896FFFD00C86C27 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		70FF9ED6289769130021F4A2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		70FF9ED8289770DC0021F4A2 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		AF07D27B2819AFDA00256E14 /* Netflix Clone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Netflix Clone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF07D27E2819AFDA00256E14 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF07D2802819AFDA00256E14 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -112,6 +116,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		70FF9ED5289766580021F4A2 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				70E64F632896FD0900C86C27 /* LoginViewController.swift */,
+				70FF9ED8289770DC0021F4A2 /* RegisterViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		9A891C6826718D4A2BD0CCA2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,6 +154,7 @@
 		AF07D27D2819AFDA00256E14 /* Netflix Clone */ = {
 			isa = PBXGroup;
 			children = (
+				70FF9ED5289766580021F4A2 /* Onboarding */,
 				AF9C729928941F91003B6CF7 /* Coordinator */,
 				AF9C729128941D01003B6CF7 /* Home */,
 				AF9C729328941D14003B6CF7 /* Search */,
@@ -156,7 +170,6 @@
 				AF9C729728941E56003B6CF7 /* Launch */,
 				AF07D28C2819AFDD00256E14 /* Info.plist */,
 				AFCE1AB82824104E000BB31B /* NetflixCloneModel.xcdatamodeld */,
-				70E64F632896FD0900C86C27 /* LoginViewController.swift */,
 			);
 			path = "Netflix Clone";
 			sourceTree = "<group>";
@@ -193,6 +206,7 @@
 		AF07D29E2819DF8E00256E14 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				70FF9ED6289769130021F4A2 /* GoogleService-Info.plist */,
 				AF07D2872819AFDD00256E14 /* Assets.xcassets */,
 				AFC04EA6282025570036469A /* Extensions.swift */,
 			);
@@ -366,6 +380,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AF07D28B2819AFDD00256E14 /* LaunchScreen.storyboard in Resources */,
+				70FF9ED7289769130021F4A2 /* GoogleService-Info.plist in Resources */,
 				AF07D2882819AFDD00256E14 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,6 +457,7 @@
 				AFC04EAB28203F670036469A /* TitleCollectionViewCell.swift in Sources */,
 				AF9C72A7289420D6003B6CF7 /* UpcomingCoordinator.swift in Sources */,
 				AF9C72A928942A2E003B6CF7 /* HomeViewModel.swift in Sources */,
+				70FF9ED9289770DC0021F4A2 /* RegisterViewController.swift in Sources */,
 				AF07D27F2819AFDA00256E14 /* AppDelegate.swift in Sources */,
 				AFC04EA7282025570036469A /* Extensions.swift in Sources */,
 				70E64F642896FD0900C86C27 /* LoginViewController.swift in Sources */,

@@ -13,6 +13,7 @@ final class HomeViewController: UIViewController {
 //MARK: - Properties
     weak var coordinator: HomeCoordinator?
     let sectionTitles = HomeViewModel.sectionTitles
+    var isNotAuthenticated: Bool { return HomeViewModel().isNotAuthenticated}
     
 //MARK: - Subviews
     private var headerView: HeroHeaderUIView?
@@ -27,8 +28,8 @@ final class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .systemBackground
+        handleIfNotAuthenticated()
         configureTableView()
         configureNavbar()
         configureHeroHeaderView()
@@ -72,8 +73,10 @@ final class HomeViewController: UIViewController {
         tableView.dataSource = self
     }
 
-    private func handleIfAuthenticated() {
-        
+    private func handleIfNotAuthenticated() {
+        if isNotAuthenticated {
+            coordinator?.presentLoginScreen(sender: self)
+        }
     }
 }
 

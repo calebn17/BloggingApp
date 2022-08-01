@@ -19,7 +19,7 @@ struct HomeViewModel {
     
     static let sectionTitles = ["Trending Movies", "Trending TV", "Popular", "Upcoming Movies", "Top Rated"]
     
-    static func isNotAuthenticated() -> Bool {
+    var isNotAuthenticated: Bool {
         return AuthManager.shared.isNotAuthenticated()
     }
     

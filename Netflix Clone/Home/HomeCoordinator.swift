@@ -25,9 +25,16 @@ final class HomeCoordinator: Coordinator {
         navigationController.pushViewController(vc, animated: false)
     }
     
+    func presentLoginScreen(sender: HomeViewController) {
+        let vc = LoginViewController()
+        vc.modalPresentationStyle = .fullScreen
+        sender.present(vc, animated: false)
+    }
+    
     func tappedOnCell(viewModel: TitlePreviewModel, sender: HomeViewController) {
         let child = PreviewCoordinator(navigationController: navigationController, sender: sender, viewModel: viewModel)
         //childCoordinators.append(child)
         child.start()
     }
+    
 }

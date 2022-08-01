@@ -10,6 +10,7 @@ import UIKit
 class CustomButton: UIButton {
 
     override init(frame: CGRect) {
+        super.init(frame: frame)
         backgroundColor = .systemBackground
         layer.masksToBounds = true
         layer.cornerRadius = 8
