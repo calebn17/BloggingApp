@@ -26,6 +26,7 @@
 		AF07D29A2819B20A00256E14 /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2992819B20A00256E14 /* DownloadsViewController.swift */; };
 		AF07D2A12819DFCE00256E14 /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2A02819DFCD00256E14 /* CollectionViewTableViewCell.swift */; };
 		AF07D2A32819E6E600256E14 /* HeroHeaderUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2A22819E6E600256E14 /* HeroHeaderUIView.swift */; };
+		AF2946CC28981DAF00B0775D /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2946CB28981DAF00B0775D /* OnboardingCoordinator.swift */; };
 		AF64FFF3282160DB00DE0732 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64FFF2282160DB00DE0732 /* TitleTableViewCell.swift */; };
 		AF64FFF5282163E500DE0732 /* TitleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64FFF4282163E500DE0732 /* TitleModel.swift */; };
 		AF64FFF7282195B800DE0732 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64FFF6282195B800DE0732 /* SearchResultsViewController.swift */; };
@@ -76,6 +77,7 @@
 		AF07D2992819B20A00256E14 /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
 		AF07D2A02819DFCD00256E14 /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
 		AF07D2A22819E6E600256E14 /* HeroHeaderUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroHeaderUIView.swift; sourceTree = "<group>"; };
+		AF2946CB28981DAF00B0775D /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		AF64FFF2282160DB00DE0732 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
 		AF64FFF4282163E500DE0732 /* TitleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleModel.swift; sourceTree = "<group>"; };
 		AF64FFF6282195B800DE0732 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			children = (
 				70E64F632896FD0900C86C27 /* LoginViewController.swift */,
 				70FF9ED8289770DC0021F4A2 /* RegisterViewController.swift */,
+				AF2946CB28981DAF00B0775D /* OnboardingCoordinator.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				AF9C72A3289420B1003B6CF7 /* ProfileCoordinator.swift in Sources */,
 				AF9C729B28941FA5003B6CF7 /* CoordinatorProtocol.swift in Sources */,
 				AF07D2A32819E6E600256E14 /* HeroHeaderUIView.swift in Sources */,
+				AF2946CC28981DAF00B0775D /* OnboardingCoordinator.swift in Sources */,
 				AFCE1ABA2824104E000BB31B /* NetflixCloneModel.xcdatamodeld in Sources */,
 				AF07D29A2819B20A00256E14 /* DownloadsViewController.swift in Sources */,
 				70E64F662896FD5A00C86C27 /* CustomTextField.swift in Sources */,

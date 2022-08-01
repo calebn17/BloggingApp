@@ -9,6 +9,11 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
+//MARK: - Properties
+    
+    weak var coordinator: OnboardingCoordinator?
+
+//MARK: - Subviews
     private let emailField: CustomTextField = {
         let field = CustomTextField()
         field.placeholder = "Enter your email..."
@@ -41,6 +46,8 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+//MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -59,18 +66,17 @@ class LoginViewController: UIViewController {
         view.addSubview(registerButton)
     }
     
+//MARK: - Actions
     @objc private func didTapButton() {
         //Sign in
         
         // If sign in is successful
-        dismiss(animated: true, completion: nil)
+        coordinator?.dismissLoginScreen(sender: self)
     }
     
     @objc private func didTapRegisterButton() {
-        let vc = RegisterViewController()
-        let navVC = UINavigationController(rootViewController: vc)
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
+        print("register button tapped")
+        coordinator?.presentRegisterScreen(sender: self)
     }
 }
 

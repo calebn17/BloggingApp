@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class HomeCoordinator: Coordinator {
+final class HomeCoordinator: NSObject, Coordinator {
     var childCoordinators: [Coordinator] = []
     
     var navigationController: UINavigationController
@@ -17,7 +17,17 @@ final class HomeCoordinator: Coordinator {
         self.navigationController = navigationController
     }
     
+    func childDidFinish(_ child: Coordinator?) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === child {
+                childCoordinators.remove(at: index)
+                break
+            }
+        }
+    }
+    
     func start() {
+        navigationController.delegate = self
         let vc = HomeViewController()
         vc.coordinator = self
         vc.navigationItem.largeTitleDisplayMode = .never
@@ -26,15 +36,29 @@ final class HomeCoordinator: Coordinator {
     }
     
     func presentLoginScreen(sender: HomeViewController) {
-        let vc = LoginViewController()
-        vc.modalPresentationStyle = .fullScreen
-        sender.present(vc, animated: false)
+        let child = OnboardingCoordinator(navigationController: navigationController, sender: sender)
+        childCoordinators.append(child)
+        child.start()
     }
     
     func tappedOnCell(viewModel: TitlePreviewModel, sender: HomeViewController) {
         let child = PreviewCoordinator(navigationController: navigationController, sender: sender, viewModel: viewModel)
-        //childCoordinators.append(child)
+        childCoordinators.append(child)
         child.start()
     }
     
+}
+
+extension HomeCoordinator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else {return}
+        if navigationController.viewControllers.contains(fromViewController) {return}
+        
+        if let loginVC = fromViewController as? LoginViewController {
+            childDidFinish(loginVC.coordinator)
+        }
+        else if let previewVC = fromViewController as? TitlePreviewViewController {
+            childDidFinish(previewVC.coordinator)
+        }
+    }
 }
