@@ -27,6 +27,7 @@ class LoginViewController: UIViewController {
         field.placeholder = "Enter you password..."
         field.keyboardType = .default
         field.returnKeyType = .done
+        field.isSecureTextEntry = true
         return field
     }()
     
@@ -55,8 +56,8 @@ class LoginViewController: UIViewController {
         configureConstraints()
         emailField.delegate = self
         passwordField.delegate = self
-        loginButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-        registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
+        addActions()
+        
     }
     
     private func addSubViews() {
@@ -66,17 +67,35 @@ class LoginViewController: UIViewController {
         view.addSubview(registerButton)
     }
     
+    private func addActions() {
+        loginButton.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
+        registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
+    }
+    
 //MARK: - Actions
-    @objc private func didTapButton() {
-        //Sign in
+    @objc private func didTapLoginButton() {
+        guard let email = emailField.text,
+              let password = passwordField.text,
+              !email.trimmingCharacters(in: .whitespaces).isEmpty,
+              !password.trimmingCharacters(in: .whitespaces).isEmpty,
+              email.contains("@") && email.contains(".com"),
+              password.count >= 4 else {return}
         
-        // If sign in is successful
-        coordinator?.dismissLoginScreen(sender: self)
+        Task {
+            try await OnboardingViewModel.signIn(email: email, password: password)
+            coordinator?.dismissLoginScreen(sender: self)
+        }
     }
     
     @objc private func didTapRegisterButton() {
         print("register button tapped")
         coordinator?.presentRegisterScreen(sender: self)
+    }
+}
+
+extension LoginViewController: RegisterViewControllerDelegate {
+    func didRegisterSuccessfully() {
+        coordinator?.dismissLoginScreen(sender: self)
     }
 }
 

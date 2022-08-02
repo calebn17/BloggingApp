@@ -29,10 +29,13 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        handleIfNotAuthenticated()
-        configureTableView()
-        configureNavbar()
-        configureHeroHeaderView()
+        Task{
+            try await AuthManager.shared.logOut()
+        }
+            handleIfNotAuthenticated()
+            configureTableView()
+            configureNavbar()
+            configureHeroHeaderView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -74,6 +77,7 @@ final class HomeViewController: UIViewController {
     }
 
     private func handleIfNotAuthenticated() {
+        print("\n\(isNotAuthenticated)")
         if isNotAuthenticated {
             coordinator?.presentLoginScreen(sender: self)
         }

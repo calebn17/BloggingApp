@@ -13,38 +13,28 @@ final class AuthManager {
     private init() {}
     
     func isNotAuthenticated() -> Bool {
+        guard let username = Auth.auth().currentUser?.email else {return true}
+        print("username: \(username)")
         return Auth.auth().currentUser == nil
     }
     
-//    public func loginUser(
-//        email: String,
-//        password: String,
-//        completion: @escaping ((Bool) -> Void)) {
-//
-//            Auth.auth().signIn(withEmail: email, password: password) {
-//
-//                authResult, error in
-//                guard authResult != nil, error == nil else {
-//                    //failed to login
-//                    completion(false)
-//                    return
-//                }
-//                Task {
-//                    do {
-//                        guard let user = try await DatabaseManager.shared.getUser(email: email) else {
-//                            completion(false)
-//                            return
-//                        }
-//                        UserDefaults.standard.set(user.userName, forKey: Cache.username)
-//                        UserDefaults.standard.set(user.userHandle, forKey: Cache.userHandle)
-//                        UserDefaults.standard.set(email, forKey: Cache.email)
-//                        print("\nLogging in, saving credentials. username: \(user.userName)")
-//                        completion(true)
-//                    }
-//                    catch {
-//                        print("Error when retrieving username and handle")
-//                    }
-//                }
-//            }
-//        }
+    public func registerUser(user: User) async throws {
+        try await Auth.auth().createUser(withEmail: user.email, password: user.password)
+        try await DatabaseManager.shared.insertUser(user: user)
+        UserDefaults.standard.set(user.username, forKey: K.username)
+        UserDefaults.standard.set(user.email, forKey: K.email)
+        UserDefaults.standard.set(user.password, forKey: K.password)
+    }
+    
+    public func loginUser(email: String, password: String) async throws {
+        try await Auth.auth().signIn(withEmail: email, password: password)
+        guard let user = try await DatabaseManager.shared.getUser(email: email) else {return}
+        UserDefaults.standard.set(user.username, forKey: K.username)
+        UserDefaults.standard.set(user.email, forKey: K.email)
+        UserDefaults.standard.set(user.password, forKey: K.password)
+    }
+    
+    public func logOut() async throws {
+        try Auth.auth().signOut()
+    }
 }

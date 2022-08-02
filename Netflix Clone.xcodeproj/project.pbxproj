@@ -44,6 +44,8 @@
 		AF9C72AB2894340C003B6CF7 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9C72AA2894340C003B6CF7 /* SearchViewModel.swift */; };
 		AF9C72AD28943522003B6CF7 /* UpcomingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9C72AC28943522003B6CF7 /* UpcomingViewModel.swift */; };
 		AFAA97982824126E005DB846 /* DataPersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAA97972824126E005DB846 /* DataPersistenceManager.swift */; };
+		AFB5ACCA2899549000395E71 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACC92899549000395E71 /* Constants.swift */; };
+		AFB5ACCC289963FA00395E71 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACCB289963FA00395E71 /* StorageManager.swift */; };
 		AFC04EA3282014C80036469A /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA2282014C80036469A /* APICaller.swift */; };
 		AFC04EA52820187B0036469A /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA42820187B0036469A /* Title.swift */; };
 		AFC04EA7282025570036469A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA6282025570036469A /* Extensions.swift */; };
@@ -52,6 +54,8 @@
 		AFC04EB0282040D20036469A /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = AFC04EAF282040D20036469A /* SDWebImageMapKit */; };
 		AFCE1ABA2824104E000BB31B /* NetflixCloneModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AFCE1AB82824104E000BB31B /* NetflixCloneModel.xcdatamodeld */; };
 		AFCED40E289471EA0083C1D5 /* DownloadsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFCED40D289471EA0083C1D5 /* DownloadsViewModel.swift */; };
+		AFFDA9612898A1F200762AF0 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFDA9602898A1F200762AF0 /* OnboardingViewModel.swift */; };
+		AFFDA9632898C3C600762AF0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFDA9622898C3C600762AF0 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,12 +99,16 @@
 		AF9C72AA2894340C003B6CF7 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		AF9C72AC28943522003B6CF7 /* UpcomingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingViewModel.swift; sourceTree = "<group>"; };
 		AFAA97972824126E005DB846 /* DataPersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPersistenceManager.swift; sourceTree = "<group>"; };
+		AFB5ACC92899549000395E71 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AFB5ACCB289963FA00395E71 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		AFC04EA2282014C80036469A /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		AFC04EA42820187B0036469A /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		AFC04EA6282025570036469A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		AFC04EAA28203F670036469A /* TitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleCollectionViewCell.swift; sourceTree = "<group>"; };
 		AFCE1AB92824104E000BB31B /* NetflixCloneModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NetflixCloneModel.xcdatamodel; sourceTree = "<group>"; };
 		AFCED40D289471EA0083C1D5 /* DownloadsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewModel.swift; sourceTree = "<group>"; };
+		AFFDA9602898A1F200762AF0 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		AFFDA9622898C3C600762AF0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F493C78EB88355E09B826CBA /* Pods_Netflix_Clone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Netflix_Clone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -121,9 +129,10 @@
 		70FF9ED5289766580021F4A2 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				AF2946CB28981DAF00B0775D /* OnboardingCoordinator.swift */,
 				70E64F632896FD0900C86C27 /* LoginViewController.swift */,
 				70FF9ED8289770DC0021F4A2 /* RegisterViewController.swift */,
-				AF2946CB28981DAF00B0775D /* OnboardingCoordinator.swift */,
+				AFFDA9602898A1F200762AF0 /* OnboardingViewModel.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -202,6 +211,7 @@
 				AF64FFF4282163E500DE0732 /* TitleModel.swift */,
 				AFC04EA42820187B0036469A /* Title.swift */,
 				AF64FFFA2822AA4300DE0732 /* YoutubeSearchResponse.swift */,
+				AFFDA9622898C3C600762AF0 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -212,6 +222,7 @@
 				70FF9ED6289769130021F4A2 /* GoogleService-Info.plist */,
 				AF07D2872819AFDD00256E14 /* Assets.xcassets */,
 				AFC04EA6282025570036469A /* Extensions.swift */,
+				AFB5ACC92899549000395E71 /* Constants.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -223,6 +234,7 @@
 				AFAA97972824126E005DB846 /* DataPersistenceManager.swift */,
 				70394F0028970A9A00355FB0 /* AuthManager.swift */,
 				70394F0228970AAB00355FB0 /* DatabaseManager.swift */,
+				AFB5ACCB289963FA00395E71 /* StorageManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -448,6 +460,7 @@
 				AF9C72AB2894340C003B6CF7 /* SearchViewModel.swift in Sources */,
 				AFC04EA3282014C80036469A /* APICaller.swift in Sources */,
 				AF9C72AD28943522003B6CF7 /* UpcomingViewModel.swift in Sources */,
+				AFB5ACCA2899549000395E71 /* Constants.swift in Sources */,
 				AF9C72A12894209D003B6CF7 /* PreviewCoordinator.swift in Sources */,
 				AFCED40E289471EA0083C1D5 /* DownloadsViewModel.swift in Sources */,
 				AF9C72A3289420B1003B6CF7 /* ProfileCoordinator.swift in Sources */,
@@ -455,6 +468,7 @@
 				AF07D2A32819E6E600256E14 /* HeroHeaderUIView.swift in Sources */,
 				AF2946CC28981DAF00B0775D /* OnboardingCoordinator.swift in Sources */,
 				AFCE1ABA2824104E000BB31B /* NetflixCloneModel.xcdatamodeld in Sources */,
+				AFFDA9632898C3C600762AF0 /* User.swift in Sources */,
 				AF07D29A2819B20A00256E14 /* DownloadsViewController.swift in Sources */,
 				70E64F662896FD5A00C86C27 /* CustomTextField.swift in Sources */,
 				70394F0328970AAB00355FB0 /* DatabaseManager.swift in Sources */,
@@ -467,11 +481,13 @@
 				70E64F642896FD0900C86C27 /* LoginViewController.swift in Sources */,
 				AF9C72A5289420C3003B6CF7 /* DownloadsCoordinator.swift in Sources */,
 				AF64FFF3282160DB00DE0732 /* TitleTableViewCell.swift in Sources */,
+				AFB5ACCC289963FA00395E71 /* StorageManager.swift in Sources */,
 				AF64FFFB2822AA4300DE0732 /* YoutubeSearchResponse.swift in Sources */,
 				AF07D2812819AFDA00256E14 /* SceneDelegate.swift in Sources */,
 				AF9C729D28942007003B6CF7 /* HomeCoordinator.swift in Sources */,
 				AF64FFFF2822B5F600DE0732 /* TitlePreviewModel.swift in Sources */,
 				AF07D2962819B1D200256E14 /* UpcomingViewController.swift in Sources */,
+				AFFDA9612898A1F200762AF0 /* OnboardingViewModel.swift in Sources */,
 				AF64FFFD2822B1DF00DE0732 /* TitlePreviewViewController.swift in Sources */,
 				AF64FFF5282163E500DE0732 /* TitleModel.swift in Sources */,
 				AFC04EA52820187B0036469A /* Title.swift in Sources */,

@@ -7,10 +7,18 @@
 
 import UIKit
 
+protocol RegisterViewControllerDelegate: AnyObject {
+    func didRegisterSuccessfully()
+}
+
 class RegisterViewController: UIViewController {
     
+//MARK: - Properties
     weak var coordinator: OnboardingCoordinator?
+    weak var delegate: RegisterViewControllerDelegate?
+    private var image: UIImage?
     
+//MARK: - SubViews
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "person")
@@ -40,6 +48,7 @@ class RegisterViewController: UIViewController {
         field.placeholder = "Enter you password..."
         field.keyboardType = .default
         field.returnKeyType = .done
+        field.isSecureTextEntry = true
         return field
     }()
     
@@ -50,7 +59,7 @@ class RegisterViewController: UIViewController {
         return button
     }()
     
-
+//MARK: - Lifecyle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -58,7 +67,7 @@ class RegisterViewController: UIViewController {
         addSubviews()
         configureConstraints()
         configureTextFields()
-        
+        addActions()
     }
     
     private func addSubviews() {
@@ -69,6 +78,7 @@ class RegisterViewController: UIViewController {
         view.addSubview(registerButton)
     }
     
+//MARK: - Configure
     private func configureNavbar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .close,
@@ -84,22 +94,60 @@ class RegisterViewController: UIViewController {
     }
     
     private func addActions() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
+        profileImageView.addGestureRecognizer(tap)
         registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
     }
+
+//MARK: - Actions
+    @objc private func didTapProfileImage() {
+        coordinator?.presentImagePicker(sender: self)
+    }
     
-  
     @objc private func didTapClose() {
         coordinator?.dismissRegisterScreen(sender: self)
     }
     
     @objc private func didTapRegisterButton() {
-        //Register user
+        passwordField.resignFirstResponder()
+        emailField.resignFirstResponder()
+        usernameField.resignFirstResponder()
         
-        //dismiss register screen
-        didTapClose()
+        guard let email = emailField.text,
+              let username = usernameField.text,
+              let password = passwordField.text,
+              let image = self.image,
+              !email.trimmingCharacters(in: .whitespaces).isEmpty,
+              !password.trimmingCharacters(in: .whitespaces).isEmpty,
+              !username.trimmingCharacters(in: .whitespaces).isEmpty,
+              email.contains("@") && email.contains(".com"),
+              password.count >= 4 else {return}
+              
+        Task {
+            try await OnboardingViewModel.register(username: username, email: email, password: password)
+            try await OnboardingViewModel.uploadProfilePicture(username: username, data: image.pngData())
+            didTapClose()
+            delegate?.didRegisterSuccessfully()
+        }
     }
 }
 
+//MARK: - ImagePicker Methods
+extension RegisterViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {return}
+        self.image = image
+        profileImageView.image = image
+    }
+}
+
+//MARK: - TextField Methods
 extension RegisterViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == usernameField {
@@ -118,6 +166,7 @@ extension RegisterViewController: UITextFieldDelegate {
     }
 }
 
+//MARK: - Constraints
 extension RegisterViewController {
     private func configureConstraints() {
         let size: CGFloat = 200
