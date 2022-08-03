@@ -48,5 +48,11 @@ struct HomeViewModel {
         return result
     }
     
+    static func getHeroHeaderImage() async throws -> String {
+        let titles = try await HomeViewModel.fetchTrendingMovies()
+        guard let poster = titles.randomElement()?.poster_path else {return ""}
+        return poster
+    }
+    
     
 }

@@ -75,7 +75,7 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
         Task {
             let title = titles[indexPath.row]
             guard let model = try await DownloadsViewModel.fetchMovie(title: title) else {return}
-            coordinator?.tappedOnCell(sender: self, model: model)
+            coordinator?.presentPreview(sender: self, model: model)
         }
     }
     

@@ -46,6 +46,10 @@
 		AFAA97982824126E005DB846 /* DataPersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFAA97972824126E005DB846 /* DataPersistenceManager.swift */; };
 		AFB5ACCA2899549000395E71 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACC92899549000395E71 /* Constants.swift */; };
 		AFB5ACCC289963FA00395E71 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACCB289963FA00395E71 /* StorageManager.swift */; };
+		AFB5ACCE2899771100395E71 /* CustomImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACCD2899771100395E71 /* CustomImageView.swift */; };
+		AFB5ACD02899E13A00395E71 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACCF2899E13A00395E71 /* ProfileViewController.swift */; };
+		AFB5ACD42899FBBB00395E71 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACD32899FBBB00395E71 /* ProfileTableViewCell.swift */; };
+		AFB5ACD62899FD4B00395E71 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACD52899FD4B00395E71 /* ProfileViewModel.swift */; };
 		AFC04EA3282014C80036469A /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA2282014C80036469A /* APICaller.swift */; };
 		AFC04EA52820187B0036469A /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA42820187B0036469A /* Title.swift */; };
 		AFC04EA7282025570036469A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA6282025570036469A /* Extensions.swift */; };
@@ -101,6 +105,10 @@
 		AFAA97972824126E005DB846 /* DataPersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPersistenceManager.swift; sourceTree = "<group>"; };
 		AFB5ACC92899549000395E71 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AFB5ACCB289963FA00395E71 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		AFB5ACCD2899771100395E71 /* CustomImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomImageView.swift; sourceTree = "<group>"; };
+		AFB5ACCF2899E13A00395E71 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		AFB5ACD32899FBBB00395E71 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
+		AFB5ACD52899FD4B00395E71 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		AFC04EA2282014C80036469A /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		AFC04EA42820187B0036469A /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		AFC04EA6282025570036469A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -201,6 +209,7 @@
 				AF64FFF2282160DB00DE0732 /* TitleTableViewCell.swift */,
 				70E64F652896FD5A00C86C27 /* CustomTextField.swift */,
 				70E64F672896FFFD00C86C27 /* CustomButton.swift */,
+				AFB5ACCD2899771100395E71 /* CustomImageView.swift */,
 			);
 			path = ReusableViews;
 			sourceTree = "<group>";
@@ -286,6 +295,9 @@
 			isa = PBXGroup;
 			children = (
 				AF9C72A2289420B1003B6CF7 /* ProfileCoordinator.swift */,
+				AFB5ACCF2899E13A00395E71 /* ProfileViewController.swift */,
+				AFB5ACD32899FBBB00395E71 /* ProfileTableViewCell.swift */,
+				AFB5ACD52899FD4B00395E71 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -471,13 +483,16 @@
 				AFFDA9632898C3C600762AF0 /* User.swift in Sources */,
 				AF07D29A2819B20A00256E14 /* DownloadsViewController.swift in Sources */,
 				70E64F662896FD5A00C86C27 /* CustomTextField.swift in Sources */,
+				AFB5ACD62899FD4B00395E71 /* ProfileViewModel.swift in Sources */,
 				70394F0328970AAB00355FB0 /* DatabaseManager.swift in Sources */,
 				AFC04EAB28203F670036469A /* TitleCollectionViewCell.swift in Sources */,
 				AF9C72A7289420D6003B6CF7 /* UpcomingCoordinator.swift in Sources */,
+				AFB5ACD42899FBBB00395E71 /* ProfileTableViewCell.swift in Sources */,
 				AF9C72A928942A2E003B6CF7 /* HomeViewModel.swift in Sources */,
 				70FF9ED9289770DC0021F4A2 /* RegisterViewController.swift in Sources */,
 				AF07D27F2819AFDA00256E14 /* AppDelegate.swift in Sources */,
 				AFC04EA7282025570036469A /* Extensions.swift in Sources */,
+				AFB5ACCE2899771100395E71 /* CustomImageView.swift in Sources */,
 				70E64F642896FD0900C86C27 /* LoginViewController.swift in Sources */,
 				AF9C72A5289420C3003B6CF7 /* DownloadsCoordinator.swift in Sources */,
 				AF64FFF3282160DB00DE0732 /* TitleTableViewCell.swift in Sources */,
@@ -490,6 +505,7 @@
 				AFFDA9612898A1F200762AF0 /* OnboardingViewModel.swift in Sources */,
 				AF64FFFD2822B1DF00DE0732 /* TitlePreviewViewController.swift in Sources */,
 				AF64FFF5282163E500DE0732 /* TitleModel.swift in Sources */,
+				AFB5ACD02899E13A00395E71 /* ProfileViewController.swift in Sources */,
 				AFC04EA52820187B0036469A /* Title.swift in Sources */,
 				AF07D2942819B1AB00256E14 /* HomeViewController.swift in Sources */,
 			);

@@ -17,15 +17,6 @@ final class HomeCoordinator: NSObject, Coordinator {
         self.navigationController = navigationController
     }
     
-    func childDidFinish(_ child: Coordinator?) {
-        for (index, coordinator) in childCoordinators.enumerated() {
-            if coordinator === child {
-                childCoordinators.remove(at: index)
-                break
-            }
-        }
-    }
-    
     func start() {
         navigationController.delegate = self
         let vc = HomeViewController()
@@ -41,8 +32,14 @@ final class HomeCoordinator: NSObject, Coordinator {
         child.start()
     }
     
-    func tappedOnCell(viewModel: TitlePreviewModel, sender: HomeViewController) {
+    func presentPreview(viewModel: TitlePreviewModel, sender: HomeViewController) {
         let child = PreviewCoordinator(navigationController: navigationController, sender: sender, viewModel: viewModel)
+        childCoordinators.append(child)
+        child.start()
+    }
+    
+    func pushProfileScreen(sender: HomeViewController) {
+        let child = ProfileCoordinator(navigationController: navigationController, sender: sender)
         childCoordinators.append(child)
         child.start()
     }
@@ -50,6 +47,15 @@ final class HomeCoordinator: NSObject, Coordinator {
 }
 
 extension HomeCoordinator: UINavigationControllerDelegate {
+    func childDidFinish(_ child: Coordinator?) {
+        for (index, coordinator) in childCoordinators.enumerated() {
+            if coordinator === child {
+                childCoordinators.remove(at: index)
+                break
+            }
+        }
+    }
+    
     func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
         guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else {return}
         if navigationController.viewControllers.contains(fromViewController) {return}
@@ -59,6 +65,9 @@ extension HomeCoordinator: UINavigationControllerDelegate {
         }
         else if let previewVC = fromViewController as? TitlePreviewViewController {
             childDidFinish(previewVC.coordinator)
+        }
+        else if let profileVC = fromViewController as? ProfileViewController {
+            childDidFinish(profileVC.coordinator)
         }
     }
 }

@@ -11,18 +11,24 @@ import UIKit
 final class OnboardingCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
-    let sender: AnyObject
+    let sender: UIViewController
     
-    init(navigationController: UINavigationController, sender: AnyObject) {
+    init(navigationController: UINavigationController, sender: UIViewController) {
         self.navigationController = navigationController
         self.sender = sender
     }
     
     func start() {
-        let vc = LoginViewController()
-        vc.coordinator = self
-        vc.modalPresentationStyle = .fullScreen
-        sender.present(vc, animated: true)
+        // Calling to main thread because Profile Coordinator invokes this method in a Task
+        DispatchQueue.main.async {[weak self] in
+            let vc = LoginViewController()
+            vc.coordinator = self
+            vc.modalPresentationStyle = .fullScreen
+            self?.sender.present(vc, animated: true) {
+                self?.sender.navigationController?.popToRootViewController(animated: false)
+                self?.sender.tabBarController?.selectedIndex = 0
+            }
+        }
     }
     
     func presentRegisterScreen(sender: LoginViewController) {

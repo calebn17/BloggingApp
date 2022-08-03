@@ -12,9 +12,9 @@ final class PreviewCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     var viewModel: TitlePreviewModel
-    var sender: AnyObject
+    var sender: UIViewController
     
-    init(navigationController: UINavigationController, sender: AnyObject, viewModel: TitlePreviewModel) {
+    init(navigationController: UINavigationController, sender: UIViewController, viewModel: TitlePreviewModel) {
         self.navigationController = navigationController
         self.viewModel = viewModel
         self.sender = sender

@@ -88,7 +88,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         let title = titles[indexPath.row]
         Task {
             guard let model = try await SearchViewModel.fetchMovie(title: title) else {return}
-            coordinator?.tappedOnSearchCell(sender: self, model: model)
+            coordinator?.presentPreview(sender: self, model: model)
         }
     }
 }
@@ -115,7 +115,7 @@ extension SearchViewController: UISearchResultsUpdating, SearchResultsViewContro
     func SearchResultsViewControllerDidTapItem(_ viewModel: TitlePreviewModel) {
         DispatchQueue.main.async {[weak self] in
             guard let strongSelf = self else {return}
-            self?.coordinator?.tappedOnSearchCell(sender: strongSelf, model: viewModel)
+            self?.coordinator?.presentPreview(sender: strongSelf, model: viewModel)
         }
     }
 }

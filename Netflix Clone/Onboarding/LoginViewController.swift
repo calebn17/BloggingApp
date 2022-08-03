@@ -70,6 +70,8 @@ class LoginViewController: UIViewController {
     private func addActions() {
         loginButton.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
+        view.addGestureRecognizer(tap)
     }
     
 //MARK: - Actions
@@ -93,12 +95,14 @@ class LoginViewController: UIViewController {
     }
 }
 
+//MARK: - Register VC Methods
 extension LoginViewController: RegisterViewControllerDelegate {
     func didRegisterSuccessfully() {
         coordinator?.dismissLoginScreen(sender: self)
     }
 }
 
+//MARK: - Text Field Methods
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == emailField {
@@ -106,11 +110,13 @@ extension LoginViewController: UITextFieldDelegate {
             passwordField.becomeFirstResponder()
         } else {
             resignFirstResponder()
+            didTapLoginButton()
         }
         return true
     }
 }
 
+//MARK: - Constraints
 extension LoginViewController {
     private func configureConstraints() {
         let emailFieldConstraints = [

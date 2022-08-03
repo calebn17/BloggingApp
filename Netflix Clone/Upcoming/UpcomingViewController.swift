@@ -78,7 +78,7 @@ extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
         let title = titles[indexPath.row]
         Task {
             guard let model = try await UpcomingViewModel.fetchMovie(title: title) else {return}
-            coordinator?.tappedCell(sender: self, model: model)
+            coordinator?.presentPreview(sender: self, model: model)
         }
     }
 }

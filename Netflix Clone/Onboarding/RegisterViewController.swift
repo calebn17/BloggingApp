@@ -19,11 +19,11 @@ class RegisterViewController: UIViewController {
     private var image: UIImage?
     
 //MARK: - SubViews
-    private let profileImageView: UIImageView = {
-        let imageView = UIImageView()
+    private let profileImageView: CustomImageView = {
+        let imageView = CustomImageView(frame: .zero)
         imageView.image = UIImage(systemName: "person")
+        imageView.layer.cornerRadius = K.profileImageSize/2
         imageView.isUserInteractionEnabled = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -97,6 +97,8 @@ class RegisterViewController: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
         profileImageView.addGestureRecognizer(tap)
         registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
+        let tap2 = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
+        view.addGestureRecognizer(tap2)
     }
 
 //MARK: - Actions
@@ -174,8 +176,8 @@ extension RegisterViewController {
         let profileImageViewConstraints = [
             profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            profileImageView.heightAnchor.constraint(equalToConstant: 50),
-            profileImageView.widthAnchor.constraint(equalToConstant: 50)
+            profileImageView.heightAnchor.constraint(equalToConstant: K.profileImageSize),
+            profileImageView.widthAnchor.constraint(equalToConstant: K.profileImageSize)
         ]
         let usernameFieldConstraints = [
             usernameField.centerXAnchor.constraint(equalTo: view.centerXAnchor),

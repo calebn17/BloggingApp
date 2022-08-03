@@ -29,13 +29,10 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        Task{
-            try await AuthManager.shared.logOut()
-        }
-            handleIfNotAuthenticated()
-            configureTableView()
-            configureNavbar()
-            configureHeroHeaderView()
+        handleIfNotAuthenticated()
+        configureTableView()
+        configureNavbar()
+        configureHeroHeaderView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -54,7 +51,7 @@ final class HomeViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .done, target: self, action: nil)
         
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: nil),
+            UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: #selector(didTapProfileButton)),
             UIBarButtonItem(image: UIImage(systemName: "play.rectangle"), style: .done, target: self, action: nil)
         ]
         navigationController?.navigationBar.tintColor = .white
@@ -64,8 +61,7 @@ final class HomeViewController: UIViewController {
         headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         tableView.tableHeaderView = headerView
         Task {
-            let titles = try await HomeViewModel.fetchTrendingMovies()
-            guard let poster = titles.randomElement()?.poster_path else {return}
+            let poster = try await HomeViewModel.getHeroHeaderImage()
             self.headerView?.configure(with: poster)
         }
     }
@@ -81,6 +77,11 @@ final class HomeViewController: UIViewController {
         if isNotAuthenticated {
             coordinator?.presentLoginScreen(sender: self)
         }
+    }
+    
+//MARK: - Actions
+    @objc private func didTapProfileButton() {
+        coordinator?.pushProfileScreen(sender: self)
     }
 }
 
@@ -166,7 +167,7 @@ extension HomeViewController: HomeCollectionViewTableViewCellDelegate {
     func collectionViewTableViewCellDidTapCell(_ cell: HomeCollectionViewTableViewCell, viewModel: TitlePreviewModel) {
         DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else {return}
-            self?.coordinator?.tappedOnCell(viewModel: viewModel, sender: strongSelf)
+            self?.coordinator?.presentPreview(viewModel: viewModel, sender: strongSelf)
         }
     }
 }

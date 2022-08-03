@@ -17,17 +17,7 @@ final class StorageManager {
         guard let data = data else {return}
         let _ = try await storage.child("\(username)/profile_picture_png").putDataAsync(data, metadata: nil)
     }
-//
-//    func uploadProfilePicture(username: String, data: Data?, completion: @escaping (Bool) -> Void) {
-//        guard let data = data else {
-//            completion(false)
-//            return
-//        }
-//        storage.child("\(username)/profile_picture_png").putData(data, metadata: nil) { _, error in
-//            completion(error == nil)
-//        }
-//    }
-    
+
     func downloadProfilePicture(username: String) async throws -> URL? {
         return try await storage.child("\(username)/profile_picture.png").downloadURL()
     }
