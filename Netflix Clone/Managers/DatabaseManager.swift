@@ -15,9 +15,13 @@ final class DatabaseManager {
     private var userRef: CollectionReference {
         return firestore.collection("users")
     }
-//    public var currentUser: User {
-//        return
-//    }
+    public var currentUser: User {
+        return User(
+            username: UserDefaults.standard.string(forKey: K.username) ?? "",
+            email: UserDefaults.standard.string(forKey: K.email) ?? "",
+            password: UserDefaults.standard.string(forKey: K.password) ?? ""
+        )
+    }
     
     private init() {}
     

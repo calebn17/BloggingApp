@@ -15,10 +15,12 @@ final class StorageManager {
     
     func uploadProfilePicture(username: String, data: Data?) async throws {
         guard let data = data else {return}
-        let _ = try await storage.child("\(username)/profile_picture_png").putDataAsync(data, metadata: nil)
+        let _ = try await storage.child("\(username)/profile_picture.png").putDataAsync(data, metadata: nil)
     }
 
     func downloadProfilePicture(username: String) async throws -> URL? {
-        return try await storage.child("\(username)/profile_picture.png").downloadURL()
+        let url = try await storage.child("\(username)/profile_picture_png").downloadURL()
+        print(String(describing: url))
+        return url
     }
 }

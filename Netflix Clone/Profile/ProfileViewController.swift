@@ -8,9 +8,36 @@
 import UIKit
 
 class ProfileViewController: UIViewController {
-    weak var coordinator: ProfileCoordinator?
     
+//MARK: - Properties
+    weak var coordinator: ProfileCoordinator?
     private let viewModels = ProfileViewModel.models
+    private var currentUser: User { return ProfileViewModel().currentUser }
+    
+//MARK: - Subviews
+    private let profileImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(systemName: "person")
+        imageView.tintColor = .label
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderColor = UIColor.label.cgColor
+        imageView.layer.borderWidth = 2
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    private let usernameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "username"
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.numberOfLines = 1
+        label.clipsToBounds = true
+        label.textColor = .label
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     private let tableView: UITableView = {
         let table = UITableView(frame: .zero)
@@ -19,12 +46,14 @@ class ProfileViewController: UIViewController {
         return table
     }()
 
+//MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureNavbar()
         addSubViews()
-        //addConstraints()
+        addConstraints()
+        configureUserInfo()
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -33,24 +62,35 @@ class ProfileViewController: UIViewController {
         tableView.frame = CGRect(x: 0, y: 300, width: view.width, height: 500)
     }
     
+    private func addSubViews() {
+        view.addSubview(profileImage)
+        view.addSubview(usernameLabel)
+        view.addSubview(tableView)
+    }
+    
+//MARK: - Configure
     private func configureNavbar() {
     }
     
-    private func addSubViews() {
-        view.addSubview(tableView)
+    private func configureUserInfo() {
+        usernameLabel.text = currentUser.username
+        Task {
+            let url = try await ProfileViewModel.getProfilePicture(user: currentUser)
+            profileImage.sd_setImage(with: url)
+        }
     }
     
     private func addActions() {
         
     }
     
+//MARK: - Actions
     @objc private func didTapClose() {
         
     }
-    
-
 }
 
+//MARK: - TableView Methods
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,7 +132,22 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         default: coordinator?.presentSignOut(sender: self)
         }
     }
-    
-    
+}
+
+extension ProfileViewController {
+    private func addConstraints() {
+        let profileImageConstraints = [
+            profileImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 125),
+            profileImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            profileImage.widthAnchor.constraint(equalToConstant: 80),
+            profileImage.heightAnchor.constraint(equalToConstant: 80)
+        ]
+        let usernameLabelConstraints = [
+            usernameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 10),
+            usernameLabel.centerXAnchor.constraint(equalTo: profileImage.centerXAnchor)
+        ]
+        NSLayoutConstraint.activate(profileImageConstraints)
+        NSLayoutConstraint.activate(usernameLabelConstraints)
+    }
 }
 

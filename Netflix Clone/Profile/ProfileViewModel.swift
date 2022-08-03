@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct ProfileModel {
     let symbolString: String?
@@ -14,6 +15,8 @@ struct ProfileModel {
 
 struct ProfileViewModel {
     
+    var currentUser: User { return DatabaseManager.shared.currentUser }
+    
     static let models: [ProfileModel] = [
         ProfileModel(symbolString: "checkmark", label: "My List"),
         ProfileModel(symbolString: "gearshape", label: "App Settings"),
@@ -21,4 +24,9 @@ struct ProfileViewModel {
         ProfileModel(symbolString: "questionmark.circle", label: "Help"),
         ProfileModel(symbolString: nil, label: "Sign Out")
     ]
+    
+    static func getProfilePicture(user: User) async throws -> URL? {
+        let url = try await StorageManager.shared.downloadProfilePicture(username: user.username)
+        return url
+    }
 }
