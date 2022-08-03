@@ -32,12 +32,10 @@ final class OnboardingCoordinator: Coordinator {
     }
     
     func presentRegisterScreen(sender: LoginViewController) {
-        print("coordinator recieved register event")
         let vc = RegisterViewController()
         vc.coordinator = self
         vc.delegate = sender
         let navVC = UINavigationController(rootViewController: vc)
-        navVC.modalPresentationStyle = .fullScreen
         sender.present(navVC, animated: true)
     }
     

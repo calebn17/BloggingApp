@@ -14,6 +14,15 @@ class LoginViewController: UIViewController {
     weak var coordinator: OnboardingCoordinator?
 
 //MARK: - Subviews
+    private let logo: UIImageView = {
+        let logo = UIImageView()
+        logo.clipsToBounds = true
+        logo.image = UIImage(named: "netflixLogo3x")
+        logo.contentMode = .scaleAspectFill
+        logo.translatesAutoresizingMaskIntoConstraints = false
+        return logo
+    }()
+    
     private let emailField: CustomTextField = {
         let field = CustomTextField()
         field.placeholder = "Enter your email..."
@@ -61,6 +70,7 @@ class LoginViewController: UIViewController {
     }
     
     private func addSubViews() {
+        view.addSubview(logo)
         view.addSubview(emailField)
         view.addSubview(passwordField)
         view.addSubview(loginButton)
@@ -90,7 +100,6 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func didTapRegisterButton() {
-        print("register button tapped")
         coordinator?.presentRegisterScreen(sender: self)
     }
 }
@@ -119,9 +128,15 @@ extension LoginViewController: UITextFieldDelegate {
 //MARK: - Constraints
 extension LoginViewController {
     private func configureConstraints() {
+        let logoConstraints = [
+            logo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logo.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            logo.widthAnchor.constraint(equalToConstant: 200),
+            logo.heightAnchor.constraint(equalToConstant: 200)
+        ]
         let emailFieldConstraints = [
             emailField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emailField.topAnchor.constraint(equalTo: view.topAnchor, constant: 300),
+            emailField.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 100),
             emailField.widthAnchor.constraint(equalToConstant: 300),
             emailField.heightAnchor.constraint(equalToConstant: 40)
         ]
@@ -144,6 +159,7 @@ extension LoginViewController {
             registerButton.heightAnchor.constraint(equalToConstant: 60),
             registerButton.widthAnchor.constraint(equalToConstant: 400)
         ]
+        NSLayoutConstraint.activate(logoConstraints)
         NSLayoutConstraint.activate(emailFieldConstraints)
         NSLayoutConstraint.activate(passwordFieldConstraints)
         NSLayoutConstraint.activate(loginButtonConstraints)

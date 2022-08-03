@@ -20,11 +20,9 @@ class DataPersistenceManager {
     
     static let shared = DataPersistenceManager()
     
-    func downloadTitle(model: Title, completion: @escaping (Result<Void, Error>) -> Void) {
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
-        
-        let context = appDelegate.persistentContainer.viewContext
+    func downloadTitle(model: Title) async throws {
+        guard let appDelegate = await UIApplication.shared.delegate as? AppDelegate else {return}
+        let context = await appDelegate.persistentContainer.viewContext
         let item = TitleItem(context: context)
         
         item.original_title = model.original_title
@@ -39,10 +37,8 @@ class DataPersistenceManager {
         
         do {
             try context.save()
-            completion(.success(()))
         }
         catch {
-            completion(.failure(DatabaseError.failedToSaveData))
             print(error.localizedDescription)
         }
     }

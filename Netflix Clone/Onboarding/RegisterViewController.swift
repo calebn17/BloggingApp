@@ -22,6 +22,7 @@ class RegisterViewController: UIViewController {
     private let profileImageView: CustomImageView = {
         let imageView = CustomImageView(frame: .zero)
         imageView.image = UIImage(systemName: "person")
+        imageView.tintColor = .label
         imageView.layer.cornerRadius = K.profileImageSize/2
         imageView.isUserInteractionEnabled = true
         return imageView
@@ -175,7 +176,7 @@ extension RegisterViewController {
         
         let profileImageViewConstraints = [
             profileImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            profileImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
             profileImageView.heightAnchor.constraint(equalToConstant: K.profileImageSize),
             profileImageView.widthAnchor.constraint(equalToConstant: K.profileImageSize)
         ]

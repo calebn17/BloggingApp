@@ -13,6 +13,7 @@ class TitleTableViewCell: UITableViewCell {
 
     static let identifier = "TitleTableViewCell"
     
+//MARK: - SubViews
     private let playTitleButton: UIButton = {
         let button = UIButton()
         //set image and size
@@ -40,12 +41,10 @@ class TitleTableViewCell: UITableViewCell {
         return imageView
     }()
     
+//MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(titlePosterUIImageView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(playTitleButton)
-        
+        addSubviews()
         applyConstraints()
     }
     
@@ -53,6 +52,23 @@ class TitleTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+//MARK: - Lifecycle
+    private func addSubviews() {
+        contentView.addSubview(titlePosterUIImageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(playTitleButton)
+    }
+
+//MARK: - Configure
+    public func configure(with model: TitleModel) {
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model.posterURL)") else { return }
+        titlePosterUIImageView.sd_setImage(with: url, completed: nil)
+        titleLabel.text = model.titleName
+    }
+}
+
+//MARK: - Constraints
+extension TitleTableViewCell {
     private func applyConstraints() {
         let titlePosterUIImageViewConstraints = [
             titlePosterUIImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -74,11 +90,4 @@ class TitleTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate(titleLabelConstraints)
         NSLayoutConstraint.activate(playTitleButtonConstraints)
     }
-    
-    public func configure(with model: TitleModel) {
-        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model.posterURL)") else { return }
-        titlePosterUIImageView.sd_setImage(with: url, completed: nil)
-        titleLabel.text = model.titleName
-    }
-    
 }

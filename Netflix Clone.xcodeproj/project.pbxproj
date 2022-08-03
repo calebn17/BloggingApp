@@ -24,7 +24,7 @@
 		AF07D2962819B1D200256E14 /* UpcomingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2952819B1D200256E14 /* UpcomingViewController.swift */; };
 		AF07D2982819B1EC00256E14 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2972819B1EC00256E14 /* SearchViewController.swift */; };
 		AF07D29A2819B20A00256E14 /* DownloadsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2992819B20A00256E14 /* DownloadsViewController.swift */; };
-		AF07D2A12819DFCE00256E14 /* CollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2A02819DFCD00256E14 /* CollectionViewTableViewCell.swift */; };
+		AF07D2A12819DFCE00256E14 /* HomeCollectionViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2A02819DFCD00256E14 /* HomeCollectionViewTableViewCell.swift */; };
 		AF07D2A32819E6E600256E14 /* HeroHeaderUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF07D2A22819E6E600256E14 /* HeroHeaderUIView.swift */; };
 		AF2946CC28981DAF00B0775D /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF2946CB28981DAF00B0775D /* OnboardingCoordinator.swift */; };
 		AF64FFF3282160DB00DE0732 /* TitleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF64FFF2282160DB00DE0732 /* TitleTableViewCell.swift */; };
@@ -83,7 +83,7 @@
 		AF07D2952819B1D200256E14 /* UpcomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingViewController.swift; sourceTree = "<group>"; };
 		AF07D2972819B1EC00256E14 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		AF07D2992819B20A00256E14 /* DownloadsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadsViewController.swift; sourceTree = "<group>"; };
-		AF07D2A02819DFCD00256E14 /* CollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewTableViewCell.swift; sourceTree = "<group>"; };
+		AF07D2A02819DFCD00256E14 /* HomeCollectionViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewTableViewCell.swift; sourceTree = "<group>"; };
 		AF07D2A22819E6E600256E14 /* HeroHeaderUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroHeaderUIView.swift; sourceTree = "<group>"; };
 		AF2946CB28981DAF00B0775D /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
 		AF64FFF2282160DB00DE0732 /* TitleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTableViewCell.swift; sourceTree = "<group>"; };
@@ -255,7 +255,7 @@
 				AF07D2932819B1AB00256E14 /* HomeViewController.swift */,
 				AF9C72A828942A2E003B6CF7 /* HomeViewModel.swift */,
 				AF07D2A22819E6E600256E14 /* HeroHeaderUIView.swift */,
-				AF07D2A02819DFCD00256E14 /* CollectionViewTableViewCell.swift */,
+				AF07D2A02819DFCD00256E14 /* HomeCollectionViewTableViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -274,8 +274,8 @@
 			isa = PBXGroup;
 			children = (
 				AF9C729E28942084003B6CF7 /* SearchCoordinator.swift */,
-				AF64FFF6282195B800DE0732 /* SearchResultsViewController.swift */,
 				AF07D2972819B1EC00256E14 /* SearchViewController.swift */,
+				AF64FFF6282195B800DE0732 /* SearchResultsViewController.swift */,
 				AF9C72AA2894340C003B6CF7 /* SearchViewModel.swift */,
 			);
 			path = Search;
@@ -468,7 +468,7 @@
 				AFAA97982824126E005DB846 /* DataPersistenceManager.swift in Sources */,
 				70E64F682896FFFD00C86C27 /* CustomButton.swift in Sources */,
 				AF9C729F28942084003B6CF7 /* SearchCoordinator.swift in Sources */,
-				AF07D2A12819DFCE00256E14 /* CollectionViewTableViewCell.swift in Sources */,
+				AF07D2A12819DFCE00256E14 /* HomeCollectionViewTableViewCell.swift in Sources */,
 				AF9C72AB2894340C003B6CF7 /* SearchViewModel.swift in Sources */,
 				AFC04EA3282014C80036469A /* APICaller.swift in Sources */,
 				AF9C72AD28943522003B6CF7 /* UpcomingViewModel.swift in Sources */,

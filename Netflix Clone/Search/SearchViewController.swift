@@ -9,11 +9,12 @@ import UIKit
 
 //Shows the top results after user clicks on the Search tab
 class SearchViewController: UIViewController {
-    
+
+//MARK: - Properties
     weak var coordinator: SearchCoordinator?
-    
     private var titles: [Title] = []
 
+//MARK: - Subviews
     private let discoverTable: UITableView = {
         let tableView = UITableView()
         tableView.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identifier)
@@ -27,25 +28,13 @@ class SearchViewController: UIViewController {
         return search
     }()
     
+//MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .systemBackground
-        
-        title = "Search"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        
-        navigationItem.searchController = searchController
-        navigationController?.navigationBar.tintColor = .label
-        
-        view.addSubview(discoverTable)
-        discoverTable.delegate = self
-        discoverTable.dataSource = self
-        
+        configureNavBar()
+        configureSubViews()
         updateDiscoverMoviesUI()
-        
-        searchController.searchResultsUpdater = self
     }
     
     override func viewDidLayoutSubviews() {
@@ -53,6 +42,20 @@ class SearchViewController: UIViewController {
         discoverTable.frame = view.bounds
     }
     
+//MARK: - Configure
+    private func configureNavBar() {
+        navigationItem.searchController = searchController
+        navigationController?.navigationBar.tintColor = .label
+    }
+    
+    private func configureSubViews() {
+        view.addSubview(discoverTable)
+        discoverTable.delegate = self
+        discoverTable.dataSource = self
+        searchController.searchResultsUpdater = self
+    }
+    
+//MARK: - Networking
     private func updateDiscoverMoviesUI() {
         Task {
             let titles = try await SearchViewModel.fetchDiscoverMovies()
@@ -62,6 +65,7 @@ class SearchViewController: UIViewController {
     }
 }
 
+//MARK: - TableView Methods
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -93,6 +97,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+//MARK: - SearchResults Methods
 extension SearchViewController: UISearchResultsUpdating, SearchResultsViewControllerDelegate {
     
     func updateSearchResults(for searchController: UISearchController) {

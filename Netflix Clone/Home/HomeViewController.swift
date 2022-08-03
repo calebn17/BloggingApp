@@ -73,7 +73,6 @@ final class HomeViewController: UIViewController {
     }
 
     private func handleIfNotAuthenticated() {
-        print("\n\(isNotAuthenticated)")
         if isNotAuthenticated {
             coordinator?.presentLoginScreen(sender: self)
         }

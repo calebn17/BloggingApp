@@ -20,6 +20,8 @@ final class SearchCoordinator: NSObject, Coordinator {
         let vc = SearchViewController()
         vc.coordinator = self
         vc.title = "Search"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationItem.largeTitleDisplayMode = .always
         vc.navigationItem.backButtonDisplayMode = .minimal
         navigationController.pushViewController(vc, animated: false)
     }
