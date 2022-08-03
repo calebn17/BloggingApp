@@ -60,8 +60,9 @@ final class HomeViewController: UIViewController {
     private func configureHeroHeaderView() {
         headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         tableView.tableHeaderView = headerView
+        headerView?.delegate = self
         Task {
-            let poster = try await HomeViewModel.getHeroHeaderImage()
+            guard let poster = try await HomeViewModel.getHeroHeaderModel() else {return}
             self.headerView?.configure(with: poster)
         }
     }
@@ -81,6 +82,22 @@ final class HomeViewController: UIViewController {
 //MARK: - Actions
     @objc private func didTapProfileButton() {
         coordinator?.pushProfileScreen(sender: self)
+    }
+}
+
+//MARK: - HeroHeader Methods
+extension HomeViewController: HeroHeaderUIViewDelegate {
+    func heroHeaderUIViewDelegateDidTapPlay(title: Title) {
+        Task {
+            guard let model = try await HomeViewModel.fetchMovie(title: title) else {return}
+            coordinator?.presentPreview(viewModel: model, sender: self)
+        }
+    }
+    
+    func heroHeaderUIViewDelegateDidTapDownload(title: Title) {
+        Task {
+            try await HomeViewModel.downloadTitle(title: title)
+        }
     }
 }
 
