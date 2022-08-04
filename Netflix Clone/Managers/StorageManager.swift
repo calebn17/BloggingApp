@@ -19,7 +19,7 @@ final class StorageManager {
     }
 
     func downloadProfilePicture(username: String) async throws -> URL? {
-        let url = try await storage.child("\(username)/profile_picture_png").downloadURL()
+        let url = try await storage.child("\(username)/profile_picture.png").downloadURL()
         print(String(describing: url))
         return url
     }

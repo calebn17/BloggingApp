@@ -38,6 +38,30 @@ final class ProfileCoordinator: NSObject, Coordinator {
         }))
         sender.present(alert, animated: true)
     }
+    
+    func presentImagePicker(sender: ProfileViewController) {
+        let sheet = UIAlertController(title: "Select Profile Image", message: "Please select your profile image", preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "Take a Photo", style: .default, handler: { [weak sender] _ in
+            DispatchQueue.main.async {
+                let picker = UIImagePickerController()
+                picker.sourceType = .camera
+                picker.allowsEditing = true
+                picker.delegate = sender
+                sender?.present(picker, animated: true, completion: nil)
+            }
+        }))
+        sheet.addAction(UIAlertAction(title: "Choose from Library", style: .default, handler: { [weak sender] _ in
+            DispatchQueue.main.async {
+                let picker = UIImagePickerController()
+                picker.sourceType = .photoLibrary
+                picker.allowsEditing = true
+                picker.delegate = sender
+                sender?.present(picker, animated: true)
+            }
+        }))
+        sender.present(sheet, animated: true)
+    }
 }
 
 extension ProfileCoordinator: UINavigationControllerDelegate {

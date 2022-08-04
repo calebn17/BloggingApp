@@ -25,6 +25,10 @@ struct ProfileViewModel {
         ProfileModel(symbolString: nil, label: "Sign Out")
     ]
     
+    static func uploadProfilePicture(user: User, data: Data?) async throws {
+        try await StorageManager.shared.uploadProfilePicture(username: user.username.lowercased(), data: data)
+    }
+    
     static func getProfilePicture(user: User) async throws -> URL? {
         let url = try await StorageManager.shared.downloadProfilePicture(username: user.username)
         return url

@@ -24,6 +24,7 @@ class ProfileViewController: UIViewController {
         imageView.layer.masksToBounds = true
         imageView.layer.borderColor = UIColor.label.cgColor
         imageView.layer.borderWidth = 2
+        imageView.isUserInteractionEnabled = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -53,9 +54,15 @@ class ProfileViewController: UIViewController {
         configureNavbar()
         addSubViews()
         addConstraints()
-        configureUserInfo()
+        updateUserUI()
+        addActions()
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        updateUserUI()
     }
     
     override func viewDidLayoutSubviews() {
@@ -72,7 +79,7 @@ class ProfileViewController: UIViewController {
     private func configureNavbar() {
     }
     
-    private func configureUserInfo() {
+    private func updateUserUI() {
         usernameLabel.text = currentUser.username
         Task {
             let url = try await ProfileViewModel.getProfilePicture(user: currentUser)
@@ -81,12 +88,30 @@ class ProfileViewController: UIViewController {
     }
     
     private func addActions() {
-        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
+        profileImage.addGestureRecognizer(tap)
     }
     
 //MARK: - Actions
-    @objc private func didTapClose() {
+    @objc private func didTapProfileImage() {
+        coordinator?.presentImagePicker(sender: self)
+    }
+}
+
+//MARK: - ImagePicker Methods
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
         
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {return}
+        profileImage.image = image
+        Task {
+            try await ProfileViewModel.uploadProfilePicture(user: currentUser, data: image.pngData())
+        }
     }
 }
 
