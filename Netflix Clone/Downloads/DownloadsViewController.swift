@@ -8,61 +8,78 @@
 import UIKit
 
 class DownloadsViewController: UIViewController {
+    
+//MARK: - Properties
     weak var coordinator: DownloadsCoordinator?
-    private var titles: [TitleItem] = []
+    private var viewModel = DownloadsViewModel()
 
-    private let downloadedTable: UITableView = {
+//MARK: - Subviews
+    private let tableView: UITableView = {
         let table = UITableView()
         table.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identifier)
         return table
     }()
 
+//MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .systemBackground
-        title = "Downloads"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        downloadedTable.delegate = self
-        downloadedTable.dataSource = self
-        view.addSubview(downloadedTable)
-        
-        navigationController?.navigationBar.tintColor = .white
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("downloaded"), object: nil, queue: nil) { [weak self] _ in
-            self?.fetchLocalStorageForDownload()
-        }
-        
-        fetchLocalStorageForDownload()
+        configureTableView()
+        addNotificationObserver()
+        updateUI()
+        fetchData()
     }
     
     override func viewDidLayoutSubviews() {
-        downloadedTable.frame = view.bounds
+        tableView.frame = view.bounds
     }
     
-    private func fetchLocalStorageForDownload() {
+//MARK: - Configure
+    private func addNotificationObserver() {
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("downloaded"),
+            object: nil,
+            queue: nil
+        ) { [weak self] _ in
+            self?.fetchData()
+        }
+    }
+    
+    private func configureTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        view.addSubview(tableView)
+    }
+    
+    private func updateUI() {
+        viewModel.downloadedTitles.bind {[weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    
+//MARK: - Networking
+    private func fetchData() {
         Task {
-            self.titles = try await DownloadsViewModel.fetchDownloadedTitles()
-            downloadedTable.reloadData()
+            try await viewModel.fetchDownloadedTitles()
         }
     }
 }
 
+//MARK: - TableView Methods
 extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles.count
+        return viewModel.downloadedTitles.value?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TitleTableViewCell.identifier, for: indexPath) as? TitleTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TitleTableViewCell.identifier, for: indexPath) as? TitleTableViewCell,
+              let title = viewModel.downloadedTitles.value?[indexPath.row]
         else {return UITableViewCell()}
         
-        let title = titles[indexPath.row].original_title ?? titles[indexPath.row].original_name ?? "Unknown"
-        let poster = titles[indexPath.row].poster_path ?? ""
-        cell.configure(with: TitleModel(titleName: title , posterURL: poster))
-        
+        cell.configure(with: title)
         return cell
     }
     
@@ -72,8 +89,9 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard let title = viewModel.downloadedTitles.value?[indexPath.row] else {return}
+                
         Task {
-            let title = titles[indexPath.row]
             guard let model = try await DownloadsViewModel.fetchMovie(title: title) else {return}
             coordinator?.presentPreview(sender: self, model: model)
         }
@@ -83,14 +101,13 @@ extension DownloadsViewController: UITableViewDelegate, UITableViewDataSource {
         switch editingStyle {
         case .delete:
             Task {
-                let title = titles[indexPath.row]
+                guard let title = viewModel.downloadedTitles.value?[indexPath.row] else {return}
                 await DownloadsViewModel.deleteTitle(with: title)
                 
                 //remove particular title from titles array FIRST and then delete the tableView row or we will get an error
-                self.titles.remove(at: indexPath.row)
+                viewModel.downloadedTitles.value?.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
-            
         default: break
         }
     }

@@ -12,10 +12,11 @@ class SearchViewController: UIViewController {
 
 //MARK: - Properties
     weak var coordinator: SearchCoordinator?
-    private var titles: [Title] = []
+    private var viewModel = SearchViewModel()
+    
 
 //MARK: - Subviews
-    private let discoverTable: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identifier)
         return tableView
@@ -34,12 +35,13 @@ class SearchViewController: UIViewController {
         view.backgroundColor = .systemBackground
         configureNavBar()
         configureSubViews()
-        updateDiscoverMoviesUI()
+        updateUI()
+        fetchDiscoverMovies()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        discoverTable.frame = view.bounds
+        tableView.frame = view.bounds
     }
     
 //MARK: - Configure
@@ -49,18 +51,24 @@ class SearchViewController: UIViewController {
     }
     
     private func configureSubViews() {
-        view.addSubview(discoverTable)
-        discoverTable.delegate = self
-        discoverTable.dataSource = self
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
         searchController.searchResultsUpdater = self
     }
     
+    private func updateUI() {
+        viewModel.discoverMovies.bind {[weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    
 //MARK: - Networking
-    private func updateDiscoverMoviesUI() {
+    private func fetchDiscoverMovies() {
         Task {
-            let titles = try await SearchViewModel.fetchDiscoverMovies()
-            self.titles = titles
-            discoverTable.reloadData()
+            try await viewModel.fetchDiscoverMovies()
         }
     }
 }
@@ -69,16 +77,14 @@ class SearchViewController: UIViewController {
 extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles.count
+        return viewModel.discoverMovies.value?.count ?? 0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TitleTableViewCell.identifier, for: indexPath) as? TitleTableViewCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TitleTableViewCell.identifier, for: indexPath) as? TitleTableViewCell,
+              let model = viewModel.discoverMovies.value?[indexPath.row]
         else {return UITableViewCell()}
         
-        let title = titles[indexPath.row].original_title ?? titles[indexPath.row].original_name ?? "Unknown"
-        let poster = titles[indexPath.row].poster_path ?? ""
-        cell.configure(with: TitleModel(titleName: title, posterURL: poster))
-        
+        cell.configure(with: model)
         return cell
     }
     
@@ -88,8 +94,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard let title = viewModel.discoverMovies.value?[indexPath.row] else {return}
         
-        let title = titles[indexPath.row]
         Task {
             guard let model = try await SearchViewModel.fetchMovie(title: title) else {return}
             coordinator?.presentPreview(sender: self, model: model)
@@ -117,7 +123,7 @@ extension SearchViewController: UISearchResultsUpdating, SearchResultsViewContro
         }
     }
     
-    func SearchResultsViewControllerDidTapItem(_ viewModel: TitlePreviewModel) {
+    func SearchResultsViewControllerDidTapItem(_ viewModel: TitlePreviewViewModel) {
         DispatchQueue.main.async {[weak self] in
             guard let strongSelf = self else {return}
             self?.coordinator?.presentPreview(sender: strongSelf, model: viewModel)

@@ -9,7 +9,7 @@ import UIKit
 
 //MARK: - Protocol
 protocol HomeCollectionViewTableViewCellDelegate: AnyObject {
-    func collectionViewTableViewCellDidTapCell(_ cell: HomeCollectionViewTableViewCell, viewModel: TitlePreviewModel)
+    func collectionViewTableViewCellDidTapCell(_ cell: HomeCollectionViewTableViewCell, viewModel: TitlePreviewViewModel)
 }
 
 //The Rowlist for each section in the Home Tab

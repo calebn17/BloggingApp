@@ -22,42 +22,61 @@ struct HomeViewModel {
     var isNotAuthenticated: Bool {
         return AuthManager.shared.isNotAuthenticated()
     }
+    var titles: [ Observable<[Title]> ] = []
     
-    static func fetchTrendingMovies() async throws -> [Title] {
+    var trendingMovies = Observable<[Title]>([])
+    var trendingTV = Observable<[Title]>([])
+    var upcomingMovies = Observable<[Title]>([])
+    var popular = Observable<[Title]>([])
+    var topRated = Observable<[Title]>([])
+    var heroHeaderModel: Observable<Title> = Observable(nil)
+    
+    func fetchTrendingMovies() async throws {
         let result = try await APICaller.shared.getTrendingMovies()
-        return result
+        trendingMovies.value = result
     }
     
-    static func fetchTrendingTv() async throws -> [Title] {
+    func fetchTrendingTv() async throws {
         let result = try await APICaller.shared.getTrendingTV()
-        return result
+        trendingTV.value = result
     }
     
-    static func fetchUpcomingMovies() async throws -> [Title] {
+    func fetchUpcomingMovies() async throws {
         let result = try await APICaller.shared.getUpcomingMovies()
-        return result
+        upcomingMovies.value = result
     }
     
-    static func fetchPopular() async throws -> [Title] {
+    func fetchPopular() async throws {
         let result = try await APICaller.shared.getPopular()
-        return result
+        popular.value = result
     }
     
-    static func fetchTopRated() async throws -> [Title] {
+    func fetchTopRated() async throws {
         let result = try await APICaller.shared.getTopRated()
-        return result
+        topRated.value = result
     }
     
-    static func getHeroHeaderModel() async throws -> Title? {
-        let titles = try await HomeViewModel.fetchTrendingMovies()
-        guard let poster = titles.randomElement() else {return nil}
-        return poster
+    func fetchHeroHeaderModel() async throws {
+        let titles = try await APICaller.shared.getTrendingMovies()
+        guard let poster = titles.randomElement() else {return}
+        heroHeaderModel.value = poster
     }
     
-    static func fetchMovie(title: Title) async throws -> TitlePreviewModel? {
+    func fetchAllData() {
+        Task {
+            try await fetchTrendingMovies()
+            try await fetchTrendingTv()
+            try await fetchUpcomingMovies()
+            try await fetchPopular()
+            try await fetchTopRated()
+            try await fetchHeroHeaderModel()
+        }
+    }
+    
+    static func fetchMovie(title: Title) async throws -> TitlePreviewViewModel? {
         guard let titleName = title.original_name ?? title.original_title else {return nil}
         guard let videoElement = try await APICaller.shared.getMovie(with: titleName) else {return nil}
-        return TitlePreviewModel(
+        return TitlePreviewViewModel(
             title: titleName,
             youtubeVideo: videoElement,
             titleOverview: title.overview ?? ""

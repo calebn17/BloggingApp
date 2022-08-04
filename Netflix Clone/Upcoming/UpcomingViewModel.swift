@@ -9,15 +9,17 @@ import Foundation
 
 struct UpcomingViewModel {
     
-    static func fetchUpcomingMovies() async throws -> [Title] {
+    var upcomingMovies = Observable<[Title]>([])
+    
+    func fetchUpcomingMovies() async throws {
         let result = try await APICaller.shared.getUpcomingMovies()
-        return result
+        upcomingMovies.value = result
     }
     
-    static func fetchMovie(title: Title) async throws -> TitlePreviewModel? {
+    static func fetchMovie(title: Title) async throws -> TitlePreviewViewModel? {
         guard let titleName = title.original_name ?? title.original_title else {return nil}
         guard let videoElement = try await APICaller.shared.getMovie(with: titleName) else {return nil}
-        return TitlePreviewModel(
+        return TitlePreviewViewModel(
             title: titleName,
             youtubeVideo: videoElement,
             titleOverview: title.overview ?? ""

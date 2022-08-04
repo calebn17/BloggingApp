@@ -12,6 +12,7 @@ final class HomeViewController: UIViewController {
 
 //MARK: - Properties
     weak var coordinator: HomeCoordinator?
+    var viewModel = HomeViewModel()
     let sectionTitles = HomeViewModel.sectionTitles
     var isNotAuthenticated: Bool { return HomeViewModel().isNotAuthenticated}
     
@@ -33,6 +34,8 @@ final class HomeViewController: UIViewController {
         configureTableView()
         configureNavbar()
         configureHeroHeaderView()
+        updateUI()
+        fetchData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -57,14 +60,39 @@ final class HomeViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
     }
     
+    private func updateUI() {
+        viewModel.heroHeaderModel.bind {[weak self] title in
+            guard let title = title else {return}
+            DispatchQueue.main.async {
+                self?.headerView?.configure(with: title)
+            }
+        }
+        viewModel.popular.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        viewModel.trendingMovies.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        viewModel.trendingTV.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        viewModel.upcomingMovies.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    
     private func configureHeroHeaderView() {
         headerView = HeroHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 500))
         tableView.tableHeaderView = headerView
         headerView?.delegate = self
-        Task {
-            guard let poster = try await HomeViewModel.getHeroHeaderModel() else {return}
-            self.headerView?.configure(with: poster)
-        }
     }
     
     private func configureTableView() {
@@ -77,6 +105,11 @@ final class HomeViewController: UIViewController {
         if isNotAuthenticated {
             coordinator?.presentLoginScreen(sender: self)
         }
+    }
+    
+//MARK: - Networking
+    private func fetchData() {
+        viewModel.fetchAllData()
     }
     
 //MARK: - Actions
@@ -104,7 +137,6 @@ extension HomeViewController: HeroHeaderUIViewDelegate {
 //MARK: - TableView Methods
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return sectionTitles.count
     }
@@ -114,39 +146,26 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeCollectionViewTableViewCell.identifier, for: indexPath) as? HomeCollectionViewTableViewCell else {return UITableViewCell()}
-        
-        cell.delegate = self
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: HomeCollectionViewTableViewCell.identifier,
+            for: indexPath
+        ) as? HomeCollectionViewTableViewCell,
+              let movies = viewModel.trendingMovies.value,
+              let tvShows = viewModel.trendingTV.value,
+              let popular = viewModel.popular.value,
+              let upcoming = viewModel.upcomingMovies.value,
+              let topRated = viewModel.topRated.value
+        else {return UITableViewCell()}
         
         switch indexPath.section {
-        case HomeSections.TrendingMovies.rawValue:
-            Task {
-                let movies = try await HomeViewModel.fetchTrendingMovies()
-                cell.configure(with: movies)
-            }
-        case HomeSections.TrendingTV.rawValue:
-            Task {
-                let tvShows = try await HomeViewModel.fetchTrendingTv()
-                cell.configure(with: tvShows)
-            }
-        case HomeSections.Popular.rawValue:
-            Task {
-                let popular = try await HomeViewModel.fetchPopular()
-                cell.configure(with: popular)
-            }
-        case HomeSections.Upcoming.rawValue:
-            Task {
-                let upcoming = try await HomeViewModel.fetchUpcomingMovies()
-                cell.configure(with: upcoming)
-            }
-        case HomeSections.TopRated.rawValue:
-            Task {
-                let topRated = try await HomeViewModel.fetchTopRated()
-                cell.configure(with: topRated)
-            }
-        default:
-            return UITableViewCell()
+        case HomeSections.TrendingMovies.rawValue:  cell.configure(with: movies)
+        case HomeSections.TrendingTV.rawValue:      cell.configure(with: tvShows)
+        case HomeSections.Popular.rawValue:         cell.configure(with: popular)
+        case HomeSections.Upcoming.rawValue:        cell.configure(with: upcoming)
+        case HomeSections.TopRated.rawValue:        cell.configure(with: topRated)
+        default:                                    return UITableViewCell()
         }
+        cell.delegate = self
         return cell
     }
     
@@ -173,14 +192,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let defaultOffset = view.safeAreaInsets.top
         let offset = scrollView.contentOffset.y + defaultOffset
-
         navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0, -offset))
     }
 }
 
 //MARK: - HomeCollectionTable Cell Methods
 extension HomeViewController: HomeCollectionViewTableViewCellDelegate {
-    func collectionViewTableViewCellDidTapCell(_ cell: HomeCollectionViewTableViewCell, viewModel: TitlePreviewModel) {
+    func collectionViewTableViewCellDidTapCell(_ cell: HomeCollectionViewTableViewCell, viewModel: TitlePreviewViewModel) {
         DispatchQueue.main.async { [weak self] in
             guard let strongSelf = self else {return}
             self?.coordinator?.presentPreview(viewModel: viewModel, sender: strongSelf)

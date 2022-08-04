@@ -60,10 +60,16 @@ class TitleTableViewCell: UITableViewCell {
     }
 
 //MARK: - Configure
-    public func configure(with model: TitleModel) {
-        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model.posterURL)") else { return }
+    public func configure(with model: Title) {
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model.poster_path ?? "")") else { return }
         titlePosterUIImageView.sd_setImage(with: url, completed: nil)
-        titleLabel.text = model.titleName
+        titleLabel.text = model.original_title ?? model.original_name ?? "unknown"
+    }
+    
+    func configure(with model: TitleItem) {
+        guard let url = URL(string: "https://image.tmdb.org/t/p/w500/\(model.poster_path ?? "")") else { return }
+        titlePosterUIImageView.sd_setImage(with: url, completed: nil)
+        titleLabel.text = model.original_title ?? model.original_name ?? "unknown"
     }
 }
 

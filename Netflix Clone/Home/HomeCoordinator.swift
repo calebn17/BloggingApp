@@ -32,7 +32,7 @@ final class HomeCoordinator: NSObject, Coordinator {
         child.start()
     }
     
-    func presentPreview(viewModel: TitlePreviewModel, sender: HomeViewController) {
+    func presentPreview(viewModel: TitlePreviewViewModel, sender: HomeViewController) {
         let child = PreviewCoordinator(navigationController: navigationController, sender: sender, viewModel: viewModel)
         childCoordinators.append(child)
         child.start()

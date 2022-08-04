@@ -26,7 +26,7 @@ final class SearchCoordinator: NSObject, Coordinator {
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func presentPreview(sender: SearchViewController, model: TitlePreviewModel) {
+    func presentPreview(sender: SearchViewController, model: TitlePreviewViewModel) {
         let child = PreviewCoordinator(navigationController: navigationController, sender: sender, viewModel: model)
         childCoordinators.append(child)
         child.start()

@@ -22,10 +22,13 @@ final class DownloadsCoordinator: NSObject, Coordinator {
         vc.coordinator = self
         vc.title = "Downloads"
         vc.navigationItem.backButtonDisplayMode = .minimal
+        navigationController.navigationBar.prefersLargeTitles = true
+        navigationController.navigationItem.largeTitleDisplayMode = .always
+        navigationController.navigationBar.tintColor = .white
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func presentPreview(sender: DownloadsViewController, model: TitlePreviewModel) {
+    func presentPreview(sender: DownloadsViewController, model: TitlePreviewViewModel) {
         let child = PreviewCoordinator(navigationController: navigationController, sender: sender, viewModel: model)
         childCoordinators.append(child)
         child.start()

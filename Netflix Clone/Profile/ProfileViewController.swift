@@ -61,11 +61,6 @@ class ProfileViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        fetchUserData()
-    }
-    
     override func viewDidLayoutSubviews() {
         tableView.frame = CGRect(x: 0, y: 300, width: view.width, height: 500)
     }

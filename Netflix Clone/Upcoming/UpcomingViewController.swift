@@ -11,10 +11,10 @@ import UIKit
 class UpcomingViewController: UIViewController {
     
     weak var coordinator: UpcomingCoordinator?
-    
     private var titles: [Title] = []
+    private var viewModel = UpcomingViewModel()
     
-    private let upcomingTable: UITableView = {
+    private let tableView: UITableView = {
         let table = UITableView()
         table.register(TitleTableViewCell.self, forCellReuseIdentifier: TitleTableViewCell.identifier)
         return table
@@ -28,25 +28,33 @@ class UpcomingViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationItem.largeTitleDisplayMode = .always
         
-        view.addSubview(upcomingTable)
-        upcomingTable.delegate = self
-        upcomingTable.dataSource = self
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
         
-        updateUpcomingUI()
+        fetchUpcomingMovies()
         
         navigationController?.navigationBar.tintColor = .white
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        upcomingTable.frame = view.bounds
+        tableView.frame = view.bounds
     }
     
-    private func updateUpcomingUI() {
+//MARK: - Configure
+    private func updateUI() {
+        viewModel.upcomingMovies.bind {[weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+    }
+
+//MARK: - Networking
+    private func fetchUpcomingMovies() {
         Task {
-            let titles = try await UpcomingViewModel.fetchUpcomingMovies()
-            self.titles = titles
-            upcomingTable.reloadData()
+            try await viewModel.fetchUpcomingMovies()
         }
     }
 }
@@ -54,17 +62,18 @@ class UpcomingViewController: UIViewController {
 extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles.count
+        return viewModel.upcomingMovies.value?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TitleTableViewCell.identifier, for: indexPath) as? TitleTableViewCell
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: TitleTableViewCell.identifier,
+            for: indexPath
+        ) as? TitleTableViewCell,
+              let model: Title = viewModel.upcomingMovies.value?[indexPath.row]
         else {return UITableViewCell()}
-        
-        let title = titles[indexPath.row].original_title ?? titles[indexPath.row].original_name ?? "Unknown"
-        let poster = titles[indexPath.row].poster_path ?? ""
-        cell.configure(with: TitleModel(titleName: title , posterURL: poster))
-        
+      
+        cell.configure(with: model)
         return cell
     }
     
@@ -74,8 +83,8 @@ extension UpcomingViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard let title = viewModel.upcomingMovies.value?[indexPath.row] else {return}
         
-        let title = titles[indexPath.row]
         Task {
             guard let model = try await UpcomingViewModel.fetchMovie(title: title) else {return}
             coordinator?.presentPreview(sender: self, model: model)

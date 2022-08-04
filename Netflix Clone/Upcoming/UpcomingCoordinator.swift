@@ -24,7 +24,7 @@ final class UpcomingCoordinator: NSObject, Coordinator {
         navigationController.pushViewController(vc, animated: false)
     }
     
-    func presentPreview(sender: UpcomingViewController, model: TitlePreviewModel) {
+    func presentPreview(sender: UpcomingViewController, model: TitlePreviewViewModel) {
         let child = PreviewCoordinator(navigationController: navigationController, sender: sender, viewModel: model)
         childCoordinators.append(child)
         child.start()
