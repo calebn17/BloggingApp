@@ -22,7 +22,6 @@ struct HomeViewModel {
     var isNotAuthenticated: Bool {
         return AuthManager.shared.isNotAuthenticated()
     }
-    var titles: [ Observable<[Title]> ] = []
     
     var trendingMovies = Observable<[Title]>([])
     var trendingTV = Observable<[Title]>([])
