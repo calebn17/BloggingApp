@@ -8,29 +8,35 @@
 import Foundation
 import UIKit
 
-struct ProfileModel {
+struct ProfileTableViewModel {
     let symbolString: String?
     let label: String
 }
 
+struct ProfilePictureViewModel {
+    var pictureUrl: URL?
+}
+
 struct ProfileViewModel {
+    
+    var profilePicture: Observable<ProfilePictureViewModel> = Observable(ProfilePictureViewModel(pictureUrl: nil))
     
     var currentUser: User { return DatabaseManager.shared.currentUser }
     
-    static let models: [ProfileModel] = [
-        ProfileModel(symbolString: "checkmark", label: "My List"),
-        ProfileModel(symbolString: "gearshape", label: "App Settings"),
-        ProfileModel(symbolString: "person", label: "Account"),
-        ProfileModel(symbolString: "questionmark.circle", label: "Help"),
-        ProfileModel(symbolString: nil, label: "Sign Out")
+    let tableViewModels: [ProfileTableViewModel] = [
+        ProfileTableViewModel(symbolString: "checkmark", label: "My List"),
+        ProfileTableViewModel(symbolString: "gearshape", label: "App Settings"),
+        ProfileTableViewModel(symbolString: "person", label: "Account"),
+        ProfileTableViewModel(symbolString: "questionmark.circle", label: "Help"),
+        ProfileTableViewModel(symbolString: nil, label: "Sign Out")
     ]
     
     static func uploadProfilePicture(user: User, data: Data?) async throws {
         try await StorageManager.shared.uploadProfilePicture(username: user.username.lowercased(), data: data)
     }
     
-    static func getProfilePicture(user: User) async throws -> URL? {
+    func getProfilePicture(user: User) async throws {
         let url = try await StorageManager.shared.downloadProfilePicture(username: user.username)
-        return url
+        profilePicture.value?.pictureUrl = url
     }
 }

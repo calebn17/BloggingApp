@@ -36,7 +36,7 @@ class ProfileTableViewCell: UITableViewCell {
         fatalError()
     }
     
-    func configure(with viewModel: ProfileModel) {
+    func configure(with viewModel: ProfileTableViewModel) {
         symbol.image = UIImage(systemName: viewModel.symbolString ?? "")
         
         if viewModel.label == "Sign Out" {

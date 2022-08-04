@@ -50,6 +50,7 @@
 		AFB5ACD02899E13A00395E71 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACCF2899E13A00395E71 /* ProfileViewController.swift */; };
 		AFB5ACD42899FBBB00395E71 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACD32899FBBB00395E71 /* ProfileTableViewCell.swift */; };
 		AFB5ACD62899FD4B00395E71 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACD52899FD4B00395E71 /* ProfileViewModel.swift */; };
+		AFB5ACD8289BFE0300395E71 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB5ACD7289BFE0300395E71 /* Observable.swift */; };
 		AFC04EA3282014C80036469A /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA2282014C80036469A /* APICaller.swift */; };
 		AFC04EA52820187B0036469A /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA42820187B0036469A /* Title.swift */; };
 		AFC04EA7282025570036469A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC04EA6282025570036469A /* Extensions.swift */; };
@@ -109,6 +110,7 @@
 		AFB5ACCF2899E13A00395E71 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		AFB5ACD32899FBBB00395E71 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		AFB5ACD52899FD4B00395E71 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		AFB5ACD7289BFE0300395E71 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		AFC04EA2282014C80036469A /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		AFC04EA42820187B0036469A /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		AFC04EA6282025570036469A /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -175,7 +177,6 @@
 			isa = PBXGroup;
 			children = (
 				70FF9ED5289766580021F4A2 /* Onboarding */,
-				AF9C729928941F91003B6CF7 /* Coordinator */,
 				AF9C729128941D01003B6CF7 /* Home */,
 				AF9C729328941D14003B6CF7 /* Search */,
 				AF9C729628941D94003B6CF7 /* Preview */,
@@ -230,6 +231,8 @@
 			children = (
 				70FF9ED6289769130021F4A2 /* GoogleService-Info.plist */,
 				AF07D2872819AFDD00256E14 /* Assets.xcassets */,
+				AFB5ACD7289BFE0300395E71 /* Observable.swift */,
+				AF9C729A28941FA5003B6CF7 /* CoordinatorProtocol.swift */,
 				AFC04EA6282025570036469A /* Extensions.swift */,
 				AFB5ACC92899549000395E71 /* Constants.swift */,
 			);
@@ -320,14 +323,6 @@
 				AF07D27E2819AFDA00256E14 /* AppDelegate.swift */,
 			);
 			path = Launch;
-			sourceTree = "<group>";
-		};
-		AF9C729928941F91003B6CF7 /* Coordinator */ = {
-			isa = PBXGroup;
-			children = (
-				AF9C729A28941FA5003B6CF7 /* CoordinatorProtocol.swift */,
-			);
-			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		B6B9A12D43AB3E4DFCF0BF3B /* Pods */ = {
@@ -470,6 +465,7 @@
 				AF9C729F28942084003B6CF7 /* SearchCoordinator.swift in Sources */,
 				AF07D2A12819DFCE00256E14 /* HomeCollectionViewTableViewCell.swift in Sources */,
 				AF9C72AB2894340C003B6CF7 /* SearchViewModel.swift in Sources */,
+				AFB5ACD8289BFE0300395E71 /* Observable.swift in Sources */,
 				AFC04EA3282014C80036469A /* APICaller.swift in Sources */,
 				AF9C72AD28943522003B6CF7 /* UpcomingViewModel.swift in Sources */,
 				AFB5ACCA2899549000395E71 /* Constants.swift in Sources */,

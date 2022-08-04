@@ -11,8 +11,8 @@ class ProfileViewController: UIViewController {
     
 //MARK: - Properties
     weak var coordinator: ProfileCoordinator?
-    private let viewModels = ProfileViewModel.models
     private var currentUser: User { return ProfileViewModel().currentUser }
+    private var profileViewModel = ProfileViewModel()
     
 //MARK: - Subviews
     private let profileImage: UIImageView = {
@@ -54,7 +54,8 @@ class ProfileViewController: UIViewController {
         configureNavbar()
         addSubViews()
         addConstraints()
-        updateUserUI()
+        updateUI()
+        fetchUserData()
         addActions()
         tableView.delegate = self
         tableView.dataSource = self
@@ -62,7 +63,7 @@ class ProfileViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        updateUserUI()
+        fetchUserData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -76,14 +77,18 @@ class ProfileViewController: UIViewController {
     }
     
 //MARK: - Configure
-    private func configureNavbar() {
+    private func configureNavbar() {}
+    
+    private func updateUI() {
+        profileViewModel.profilePicture.bind {[weak self] viewModel in
+            self?.profileImage.sd_setImage(with: self?.profileViewModel.profilePicture.value?.pictureUrl, completed: nil)
+        }
     }
     
-    private func updateUserUI() {
+    private func fetchUserData() {
         usernameLabel.text = currentUser.username
         Task {
-            let url = try await ProfileViewModel.getProfilePicture(user: currentUser)
-            profileImage.sd_setImage(with: url)
+            try await profileViewModel.getProfilePicture(user: currentUser)
         }
     }
     
@@ -119,25 +124,25 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
 extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModels.count
+        return profileViewModel.tableViewModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ProfileTableViewCell.identifier, for: indexPath) as? ProfileTableViewCell
         else {return UITableViewCell()}
         cell.accessoryType = .disclosureIndicator
-        
+        let tableViewModels = profileViewModel.tableViewModels
         switch indexPath.row {
         case 0:
-            cell.configure(with: viewModels[0])
+            cell.configure(with: tableViewModels[0])
         case 1:
-            cell.configure(with: viewModels[1])
+            cell.configure(with: tableViewModels[1])
         case 2:
-            cell.configure(with: viewModels[2])
+            cell.configure(with: tableViewModels[2])
         case 3:
-            cell.configure(with: viewModels[3])
+            cell.configure(with: tableViewModels[3])
         default:
-            cell.configure(with: viewModels[4])
+            cell.configure(with: tableViewModels[4])
         }
         return cell
     }
