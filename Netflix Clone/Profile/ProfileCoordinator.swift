@@ -33,7 +33,9 @@ final class ProfileCoordinator: NSObject, Coordinator {
                 try await AuthManager.shared.logOut()
                 let child = OnboardingCoordinator(navigationController: self.navigationController, sender: strongSender)
                 self.childCoordinators.append(child)
-                child.start()
+                DispatchQueue.main.async {
+                    child.start()
+                }
             }
         }))
         sender.present(alert, animated: true)

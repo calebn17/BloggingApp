@@ -19,15 +19,12 @@ final class OnboardingCoordinator: Coordinator {
     }
     
     func start() {
-        // Calling to main thread because Profile Coordinator invokes this method in a Task
-        DispatchQueue.main.async {[weak self] in
-            let vc = LoginViewController()
-            vc.coordinator = self
-            vc.modalPresentationStyle = .fullScreen
-            self?.sender.present(vc, animated: true) {
-                self?.sender.navigationController?.popToRootViewController(animated: false)
-                self?.sender.tabBarController?.selectedIndex = 0
-            }
+        let vc = LoginViewController()
+        vc.coordinator = self
+        vc.modalPresentationStyle = .fullScreen
+        sender.present(vc, animated: true) { [weak sender] in
+            sender?.navigationController?.popToRootViewController(animated: false)
+            sender?.tabBarController?.selectedIndex = 0
         }
     }
     
