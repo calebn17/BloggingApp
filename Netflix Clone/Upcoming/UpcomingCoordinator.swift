@@ -21,6 +21,9 @@ final class UpcomingCoordinator: NSObject, Coordinator {
         vc.title = "Upcoming"
         vc.coordinator = self
         vc.navigationItem.backButtonDisplayMode = .minimal
+        navigationController.navigationBar.prefersLargeTitles = true
+        navigationController.navigationItem.largeTitleDisplayMode = .always
+        navigationController.navigationBar.tintColor = .white
         navigationController.pushViewController(vc, animated: false)
     }
     
