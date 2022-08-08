@@ -6,10 +6,11 @@ Netflix Cone Project
 * [Setup](#setup)
 
 ## General info
-This project 
+This project is a clone of the iOS Netflix app that I built. The aim of this project is to demonstrate my current technical skills in app and code design, app insfrastrucutre, and the utilization of Apple's and third party Libraries and APIs.
 	
 ## Technologies
 Project is created with:
-* Lorem version: 12.3
-* Ipsum version: 2.33
-* Ament library version: 999
+* Swift (MVVM-C, UIKit, Autolayout, Multithreading)
+* Firebase (BE, DB, Auth services)
+* Youtube and third party APIs (fetch live data, generate and cache images)
+* CoreData (data persistence)
