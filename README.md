@@ -6,7 +6,7 @@ Netflix Cone Project
 * [Setup](#setup)
 
 ## General info
-This project is a clone of the iOS Netflix app that I built. The aim of this project is to demonstrate my current technical skills in app and code design, app insfrastrucutre, and the utilization of Apple's and third party Libraries and APIs.
+This project is a clone of the iOS Netflix app that I built. The aim of this project is to demonstrate my current technical skills in app and code design, app infrastructure, and the utilization of Apple's and third party Libraries and APIs.
 	
 ## Technologies
 Project is created with:
