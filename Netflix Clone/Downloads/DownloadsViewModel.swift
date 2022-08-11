@@ -9,11 +9,15 @@ import Foundation
 
 struct DownloadsViewModel {
     
-    var downloadedTitles = Observable<[TitleItem]>([])
+    @MainActor var downloadedTitles = Observable<[TitleItem]>([])
+    
+    @MainActor func fetchDownloadedTitles() async throws {
+        let result = try await DataPersistenceManager.shared.fetchingTitlesFromDataBase()
+        downloadedTitles.value = result
+    }
     
     static func fetchMovie(title: TitleItem) async throws -> TitlePreviewViewModel? {
         guard let titleName = title.original_name ?? title.original_title else {return nil}
-        
         guard let videoElement = try await APICaller.shared.getMovie(with: titleName) else {return nil}
         
         return TitlePreviewViewModel(
@@ -21,11 +25,6 @@ struct DownloadsViewModel {
             youtubeVideo: videoElement,
             titleOverview: title.overview ?? ""
         )
-    }
-    
-    func fetchDownloadedTitles() async throws {
-        let result = try await DataPersistenceManager.shared.fetchingTitlesFromDataBase()
-        downloadedTitles.value = result
     }
     
     static func deleteTitle(with model: TitleItem) async {

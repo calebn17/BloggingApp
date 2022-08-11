@@ -23,39 +23,39 @@ struct HomeViewModel {
         return AuthManager.shared.isNotAuthenticated()
     }
     
-    var trendingMovies = Observable<[Title]>([])
-    var trendingTV = Observable<[Title]>([])
-    var upcomingMovies = Observable<[Title]>([])
-    var popular = Observable<[Title]>([])
-    var topRated = Observable<[Title]>([])
-    var heroHeaderModel: Observable<Title> = Observable(nil)
+    @MainActor var trendingMovies = Observable<[Title]>([])
+    @MainActor var trendingTV = Observable<[Title]>([])
+    @MainActor var upcomingMovies = Observable<[Title]>([])
+    @MainActor var popular = Observable<[Title]>([])
+    @MainActor var topRated = Observable<[Title]>([])
+    @MainActor var heroHeaderModel: Observable<Title> = Observable(nil)
     
-    func fetchTrendingMovies() async throws {
+    @MainActor func fetchTrendingMovies() async throws {
         let result = try await APICaller.shared.getTrendingMovies()
         trendingMovies.value = result
     }
     
-    func fetchTrendingTv() async throws {
+    @MainActor func fetchTrendingTv() async throws {
         let result = try await APICaller.shared.getTrendingTV()
         trendingTV.value = result
     }
     
-    func fetchUpcomingMovies() async throws {
+    @MainActor func fetchUpcomingMovies() async throws {
         let result = try await APICaller.shared.getUpcomingMovies()
         upcomingMovies.value = result
     }
     
-    func fetchPopular() async throws {
+    @MainActor func fetchPopular() async throws {
         let result = try await APICaller.shared.getPopular()
         popular.value = result
     }
     
-    func fetchTopRated() async throws {
+    @MainActor func fetchTopRated() async throws {
         let result = try await APICaller.shared.getTopRated()
         topRated.value = result
     }
     
-    func fetchHeroHeaderModel() async throws {
+    @MainActor func fetchHeroHeaderModel() async throws {
         let titles = try await APICaller.shared.getTrendingMovies()
         guard let poster = titles.randomElement() else {return}
         heroHeaderModel.value = poster

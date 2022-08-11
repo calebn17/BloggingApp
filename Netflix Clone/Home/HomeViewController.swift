@@ -14,7 +14,7 @@ final class HomeViewController: UIViewController {
     weak var coordinator: HomeCoordinator?
     var viewModel = HomeViewModel()
     let sectionTitles = HomeViewModel.sectionTitles
-    var isNotAuthenticated: Bool { return HomeViewModel().isNotAuthenticated}
+    var isNotAuthenticated: Bool { return HomeViewModel().isNotAuthenticated }
     
 //MARK: - Subviews
     private var headerView: HeroHeaderUIView?
@@ -63,29 +63,19 @@ final class HomeViewController: UIViewController {
     private func updateUI() {
         viewModel.heroHeaderModel.bind {[weak self] title in
             guard let title = title else {return}
-            DispatchQueue.main.async {
-                self?.headerView?.configure(with: title)
-            }
+            self?.headerView?.configure(with: title)
         }
         viewModel.popular.bind { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
+            self?.tableView.reloadData()
         }
         viewModel.trendingMovies.bind { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
+            self?.tableView.reloadData()
         }
         viewModel.trendingTV.bind { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
+            self?.tableView.reloadData()
         }
         viewModel.upcomingMovies.bind { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
+            self?.tableView.reloadData()
         }
     }
     

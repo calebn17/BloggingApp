@@ -53,9 +53,7 @@ class DownloadsViewController: UIViewController {
     
     private func updateUI() {
         viewModel.downloadedTitles.bind {[weak self] _ in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
+            self?.tableView.reloadData()
         }
     }
     

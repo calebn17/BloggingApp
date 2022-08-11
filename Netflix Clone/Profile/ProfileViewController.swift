@@ -57,8 +57,7 @@ class ProfileViewController: UIViewController {
         updateUI()
         fetchUserData()
         addActions()
-        tableView.delegate = self
-        tableView.dataSource = self
+        configureTableView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -72,6 +71,11 @@ class ProfileViewController: UIViewController {
     }
     
 //MARK: - Configure
+    private func configureTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
     private func configureNavbar() {}
     
     private func updateUI() {
@@ -80,16 +84,17 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    private func addActions() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
+        profileImage.addGestureRecognizer(tap)
+    }
+    
+//MARK: - Networking
     private func fetchUserData() {
         usernameLabel.text = currentUser.username
         Task {
             try await profileViewModel.getProfilePicture(user: currentUser)
         }
-    }
-    
-    private func addActions() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage))
-        profileImage.addGestureRecognizer(tap)
     }
     
 //MARK: - Actions
@@ -128,16 +133,11 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
         let tableViewModels = profileViewModel.tableViewModels
         switch indexPath.row {
-        case 0:
-            cell.configure(with: tableViewModels[0])
-        case 1:
-            cell.configure(with: tableViewModels[1])
-        case 2:
-            cell.configure(with: tableViewModels[2])
-        case 3:
-            cell.configure(with: tableViewModels[3])
-        default:
-            cell.configure(with: tableViewModels[4])
+        case 0:  cell.configure(with: tableViewModels[0])
+        case 1:  cell.configure(with: tableViewModels[1])
+        case 2:  cell.configure(with: tableViewModels[2])
+        case 3:  cell.configure(with: tableViewModels[3])
+        default: cell.configure(with: tableViewModels[4])
         }
         return cell
     }
