@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct OnboardingViewModel {
+struct OnboardingViewModel { 
     
     static func register(username: String, email: String, password: String) async throws {
         let user = User(

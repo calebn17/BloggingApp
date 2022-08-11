@@ -9,9 +9,9 @@ import Foundation
 
 struct SearchViewModel {
     
-    var discoverMovies = Observable<[Title]>([])
+    @MainActor var discoverMovies = Observable<[Title]>([])
     
-    func fetchDiscoverMovies() async throws {
+    @MainActor func fetchDiscoverMovies() async throws {
         let result = try await APICaller.shared.getDiscoverMovies()
         discoverMovies.value = result
     }

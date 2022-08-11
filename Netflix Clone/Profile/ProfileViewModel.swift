@@ -19,7 +19,7 @@ struct ProfilePictureViewModel {
 
 struct ProfileViewModel {
     
-    var profilePicture: Observable<ProfilePictureViewModel> = Observable(ProfilePictureViewModel(pictureUrl: nil))
+    @MainActor var profilePicture: Observable<ProfilePictureViewModel> = Observable(ProfilePictureViewModel(pictureUrl: nil))
     
     var currentUser: User { return DatabaseManager.shared.currentUser }
     
@@ -31,12 +31,12 @@ struct ProfileViewModel {
         ProfileTableViewModel(symbolString: nil, label: "Sign Out")
     ]
     
-    static func uploadProfilePicture(user: User, data: Data?) async throws {
-        try await StorageManager.shared.uploadProfilePicture(username: user.username.lowercased(), data: data)
-    }
-    
-    func getProfilePicture(user: User) async throws {
+    @MainActor func getProfilePicture(user: User) async throws {
         let url = try await StorageManager.shared.downloadProfilePicture(username: user.username)
         profilePicture.value?.pictureUrl = url
+    }
+    
+    static func uploadProfilePicture(user: User, data: Data?) async throws {
+        try await StorageManager.shared.uploadProfilePicture(username: user.username.lowercased(), data: data)
     }
 }

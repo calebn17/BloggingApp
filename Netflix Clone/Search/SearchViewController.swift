@@ -59,9 +59,7 @@ class SearchViewController: UIViewController {
     
     private func updateUI() {
         viewModel.discoverMovies.bind {[weak self] _ in
-            DispatchQueue.main.async {
                 self?.tableView.reloadData()
-            }
         }
     }
     

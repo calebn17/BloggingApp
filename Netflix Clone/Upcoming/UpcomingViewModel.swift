@@ -9,9 +9,9 @@ import Foundation
 
 struct UpcomingViewModel {
     
-    var upcomingMovies = Observable<[Title]>([])
+    @MainActor var upcomingMovies = Observable<[Title]>([])
     
-    func fetchUpcomingMovies() async throws {
+    @MainActor func fetchUpcomingMovies() async throws {
         let result = try await APICaller.shared.getUpcomingMovies()
         upcomingMovies.value = result
     }

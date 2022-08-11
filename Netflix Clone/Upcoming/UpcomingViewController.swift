@@ -42,11 +42,10 @@ class UpcomingViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
+    
     private func updateUI() {
         viewModel.upcomingMovies.bind {[weak self] _ in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
+            self?.tableView.reloadData()
         }
     }
 

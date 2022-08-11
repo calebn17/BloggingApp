@@ -24,6 +24,7 @@ final class PreviewCoordinator: Coordinator {
         let vc = TitlePreviewViewController()
         vc.coordinator = self
         vc.configure(with: viewModel)
+        vc.title = "Preview"
         let navVC = UINavigationController(rootViewController: vc)
         sender.present(navVC, animated: true)
     }
