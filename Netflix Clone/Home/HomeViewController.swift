@@ -25,6 +25,14 @@ final class HomeViewController: UIViewController {
         return tableView
     }()
     
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.tintColor = .label
+        spinner.startAnimating()
+        spinner.isHidden = false
+        return spinner
+    }()
+    
 //MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -36,6 +44,7 @@ final class HomeViewController: UIViewController {
         configureHeroHeaderView()
         updateUI()
         fetchData()
+        handleLoadingState()
     }
     
     override func viewDidLayoutSubviews() {
@@ -60,9 +69,21 @@ final class HomeViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .label
     }
     
+    private func handleLoadingState() {
+        view.addSubview(spinner)
+        if viewModel.heroHeaderModel.value == nil {
+            tableView.isHidden = true
+        } else {
+            spinner.stopAnimating()
+            spinner.isHidden = true
+            tableView.isHidden = false
+        }
+    }
+    
     private func updateUI() {
         viewModel.heroHeaderModel.bind {[weak self] title in
             guard let title = title else {return}
+            self?.handleLoadingState()
             self?.headerView?.configure(with: title)
         }
         viewModel.popular.bind { [weak self] _ in
